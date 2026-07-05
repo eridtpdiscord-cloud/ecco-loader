@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local RunService   = game:GetService("RunService")
 
 local DATABASE_URL = "https://jsonblob.com/api/jsonBlob/019f332a-96d1-7a6c-9719-94f351396b5b"
-local SCRIPT_URL   = "https://dpaste.com/BALNHG3T7.txt"
+local SCRIPT_URL   = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/hub.lua"
 local KEY_FILE     = "ecco_hub_key.txt"
 
 -- =========================================
