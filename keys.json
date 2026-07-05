@@ -1,5 +1,5 @@
 {
-  "keyless": false,
+  "keyless": true,
   "key_link": "https://lootlink.org/s?xxxx",
   "keys": {
     "2941205928": "2026-12-31",
