@@ -1,5 +1,5 @@
 -- Sell Lemons Hub | Ecco Loader
--- Target Hub Script: https://dpaste.com/BALNHG3T7.txt
+-- Target Hub Script: https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/hub.lua
 -- Key Database: https://jsonblob.com/api/jsonBlob/019f332a-96d1-7a6c-9719-94f351396b5b
 
 local HttpService  = game:GetService("HttpService")
