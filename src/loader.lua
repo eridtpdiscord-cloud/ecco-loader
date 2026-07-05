@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local RunService   = game:GetService("RunService")
 
 local DATABASE_URL = "https://jsonblob.com/api/jsonBlob/019f332a-96d1-7a6c-9719-94f351396b5b"
-local SCRIPT_URL   = "https://dpaste.com/BALNHG3T7.txt"
+local SCRIPT_URL   = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/hub.lua"
 local KEY_FILE     = "ecco_hub_key.txt"
 
 -- =========================================
@@ -85,7 +85,7 @@ local Lemon = Instance.new("TextLabel", Card)
 Lemon.Size                = UDim2.new(0, 60, 0, 60)
 Lemon.Position            = UDim2.new(0.5, -30, 0, 18)
 Lemon.BackgroundTransparency = 1
-Lemon.Text                = "💎"
+Lemon.Text                = "ðŸ’Ž"
 Lemon.TextSize            = 48
 Lemon.Font                = Enum.Font.Gotham
 Lemon.ZIndex              = 3
@@ -171,7 +171,7 @@ local Credit = Instance.new("TextLabel", Card)
 Credit.Size                = UDim2.new(1, -20, 0, 18)
 Credit.Position            = UDim2.new(0, 10, 0, 190)
 Credit.BackgroundTransparency = 1
-Credit.Text                = "ecco hub v1.0 • diamond edition"
+Credit.Text                = "ecco hub v1.0 â€¢ diamond edition"
 Credit.TextColor3          = Color3.fromRGB(70, 70, 70)
 Credit.TextSize            = 11
 Credit.Font                = Enum.Font.Gotham
@@ -386,7 +386,7 @@ task.spawn(function()
     CloseBtn.Size = UDim2.new(0, 28, 0, 28)
     CloseBtn.Position = UDim2.new(1, -34, 0, 6)
     CloseBtn.BackgroundTransparency = 1
-    CloseBtn.Text = "✕"
+    CloseBtn.Text = "âœ•"
     CloseBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
     CloseBtn.TextSize = 16
     CloseBtn.Font = Enum.Font.GothamBold
