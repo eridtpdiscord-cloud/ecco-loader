@@ -1,0 +1,19 @@
+{
+  "keyless": false,
+  "key_link": "https://lootlink.org/s?xxxx",
+  "keys": {
+    "2941205928": "2026-12-31",
+    "669174620": "2026-12-31",
+    "788947332": "2026-12-31",
+    "3743555404": "permanent",
+    "1830044273": "permanent"
+  },
+  "blob_id": "019f332a-96d1-7a6c-9719-94f351396b5b",
+  "raw_keys_dont_share": {
+    "ECCO_TEMP_oxRj6fjL": "2026-12-31",
+    "ECCO_TEMP_Mk7waAQp": "2026-12-31",
+    "ECCO_TEMP_A9FxrgTl": "2026-12-31",
+    "ECCO_PERM_fZi9Xs5y": "permanent",
+    "ECCO_PERM_Ccxeom9H": "permanent"
+  }
+}
