@@ -1,14 +1,4 @@
---[[
-    ================================================================================
-    ECCO HUB V3 — SURVIVE ZOMBIE ARENA
-    ================================================================================
-    Platform: https://eccohub.xyz
-    Discord: https://discord.gg/ecc00
-    UI Framework: ObsidianUltra (Ecco Edition)
-    Architecture: Hardened Service Pipeline with cloneref Isolation
-    ================================================================================
---]]
-
+--[[ ECCO HUB V3 | discord.gg/ecc00 | https://eccohub.xyz ]]
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
