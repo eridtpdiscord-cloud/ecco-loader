@@ -9538,9 +9538,21 @@ function Library:CreateWindow(WindowInfo)
             pcall(function()
                 if isfile and not isfile("ecco_symbol.png") then
                     pcall(function()
-                        local s = game:HttpGet("http://127.0.0.1:8999/ecco_symbol.png")
-                        writefile("ecco_symbol.png", s)
+                        local s = game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/ecco_symbol.png")
+                        if s and #s > 1000 then writefile("ecco_symbol.png", s) end
                     end)
+                    if not isfile("ecco_symbol.png") then
+                        pcall(function()
+                            local s = game:HttpGet("http://127.0.0.1:8999/ecco_symbol.png")
+                            if s and #s > 1000 then writefile("ecco_symbol.png", s) end
+                        end)
+                    end
+                    if not isfile("ecco_symbol.png") then
+                        pcall(function()
+                            local s = game:HttpGet("https://eccohub.xyz/ecco_symbol.png")
+                            if s and #s > 1000 then writefile("ecco_symbol.png", s) end
+                        end)
+                    end
                 end
                 if getcustomasset and isfile and isfile("ecco_symbol.png") then
                     WindowIcon.Image = getcustomasset("ecco_symbol.png")
@@ -12482,6 +12494,78 @@ function Library:CreateWindow(WindowInfo)
                         ts:Teleport(game.PlaceId, lp)
                     end
                 })
+
+                -- [[ DEDICATED NOTIFICATIONS / ANNOUNCEMENTS TAB ]]
+                local notifTab = Window:AddTab({
+                    Name = "Announcements",
+                    Icon = "bell",
+                    Description = "Network Broadcasts & Live Updates",
+                    Order = -9998
+                })
+                if notifTab then
+                    local notifsBox = notifTab:AddLeftGroupbox("Network Announcements")
+                    local rawNotifs = _G.EccoNotifications or {}
+                    if #rawNotifs == 0 then
+                        notifsBox:AddLabel({ Text = "No active broadcasts." })
+                    else
+                        for _, n in ipairs(rawNotifs) do
+                            local t = tostring(n.title or "ANNOUNCEMENT")
+                            local m = tostring(n.message or "")
+                            local ts = tostring(n.timestamp or "LIVE")
+                            notifsBox:AddLabel({ Text = "[" .. ts:sub(1, 10) .. "] " .. t, TextWrapped = true })
+                            notifsBox:AddLabel({ Text = m, TextWrapped = true })
+                            notifsBox:AddDivider()
+                        end
+                    end
+
+                    local ctrlBox = notifTab:AddRightGroupbox("Control Plane Status")
+                    local cfg = _G.EccoConfig or {}
+                    local netStatus = cfg.status == "shutdown" and "MAINTENANCE" or "ONLINE"
+                    local keyMode = (cfg.key_system and cfg.key_system.mode) or "KEYLESS"
+                    ctrlBox:AddLabel({ Text = "Network Status: " .. netStatus })
+                    ctrlBox:AddLabel({ Text = "License Mode: " .. keyMode:upper() })
+                    ctrlBox:AddDivider()
+                    ctrlBox:AddButton({
+                        Text = "Replay All Announcements",
+                        Func = function()
+                            local notices = _G.EccoNotifications or {}
+                            if #notices == 0 then
+                                Library:Notify({ Title = "Ecco Hub V3", Description = "No active announcements to replay.", Time = 4 })
+                            else
+                                for _, n in ipairs(notices) do
+                                    Library:Notify({
+                                        Title = n.title or "ECCO HUB BROADCAST",
+                                        Description = n.message or "",
+                                        Time = 6
+                                    })
+                                    task.wait(0.4)
+                                end
+                            end
+                        end
+                    })
+                end
+
+                -- [[ AUTO DISPATCH NOTIFICATIONS UPON BOOT ]]
+                task.spawn(function()
+                    task.wait(1.5)
+                    local notices = _G.EccoNotifications or {}
+                    if #notices > 0 then
+                        for _, n in ipairs(notices) do
+                            Library:Notify({
+                                Title = n.title or "ECCO HUB BROADCAST",
+                                Description = n.message or "",
+                                Time = 7
+                            })
+                            task.wait(0.5)
+                        end
+                    else
+                        Library:Notify({
+                            Title = "Ecco Hub V3",
+                            Description = "Welcome! Running verified keyless build.",
+                            Time = 5
+                        })
+                    end
+                end)
 
                 infoTab:Show()
             end
