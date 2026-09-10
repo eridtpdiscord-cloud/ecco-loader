@@ -10084,6 +10084,32 @@ function Library:CreateWindow(WindowInfo)
             Order = select(5, ...)
         end
 
+                if Name and tostring(Name):lower():find("donat") then
+            local dummyTab = {}
+            local function makeDummy() return dummyTab end
+            dummyTab.AddLeftGroupbox = makeDummy
+            dummyTab.AddRightGroupbox = makeDummy
+            dummyTab.AddGroupbox = makeDummy
+            dummyTab.AddLeftTabbox = makeDummy
+            dummyTab.AddRightTabbox = makeDummy
+            dummyTab.AddTabbox = makeDummy
+            dummyTab.AddSubTab = makeDummy
+            dummyTab.AddSection = makeDummy
+            dummyTab.AddLabel = makeDummy
+            dummyTab.AddButton = makeDummy
+            dummyTab.AddToggle = makeDummy
+            dummyTab.AddSlider = makeDummy
+            dummyTab.AddDropdown = makeDummy
+            dummyTab.AddColorPicker = makeDummy
+            dummyTab.AddKeyPicker = makeDummy
+            dummyTab.AddDivider = makeDummy
+            dummyTab.AddInput = makeDummy
+            dummyTab.AddDraggableLabel = makeDummy
+            dummyTab.Show = function() end
+            dummyTab.Hide = function() end
+            return dummyTab
+        end
+
         Icon = Icon or "file-question-mark"
 
         local TabButton: TextButton
