@@ -1,6 +1,6 @@
 {
     "status": "online",
-    "shutdown_message": "Ecco Hub V3 is currently offline for scheduled maintenance. Join discord.gg/hN9QpA3HA for updates.",
+    "shutdown_message": "Maintenance in progress for Q4 updates.",
     "key_system": {
         "mode": "keyless",
         "key_gate_url": "https://lootlink.org/s?ecco",
