@@ -1,376 +1,612 @@
 --[[
     ================================================================================
-    ECCO HUB V3 — MASTER MULTI-GAME ROUTER (300+ GAMES SUPPORTED)
+    ECCO HUB V3 — MINIMALIST SLEEK BOOTSTRAP LOADER
     ================================================================================
-    Official Hub: https://eccohub.xyz
-    Community   : https://discord.gg/hN9QpA3HA
-    Framework   : ObsidianUltra (Ecco Edition)
+    Official Hub : https://eccohub.xyz
+    Community    : https://discord.gg/hN9QpA3HA
+    TikTok       : https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc
+    Design Spec  : Sleek Dark Glass Stepper UI (390x480)
     ================================================================================
 --]]
 
-if not game:IsLoaded() then
-    game.Loaded:Wait()
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+local gethui = gethui or function() return CoreGui end
+local parent = gethui()
+
+-- Clean up any previous loader instance
+if parent:FindFirstChild("EccoLoaderModal") then
+    parent.EccoLoaderModal:Destroy()
 end
 
-local BASE = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/games/"
-local games = {
-    -- Pickaxe Tycoon (RootPlace, Universe, Group, Alt)
-    [73814003954154] = 'pickaxe-tycoon.lua',
-    [10081194651] = 'pickaxe-tycoon.lua',
-    [374857141] = 'pickaxe-tycoon.lua',
-    [18073574163] = 'pickaxe-tycoon.lua',
+-- ==============================================================================
+-- 1. ROOT SCREEN GUI
+-- ==============================================================================
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "EccoLoaderModal"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.DisplayOrder = 10000
+ScreenGui.Enabled = true
+ScreenGui.Parent = parent
 
-    -- Survive Zombie Arena (RootPlace, Universe, Group)
-    [114204398207377] = 'survive-zombie-arena.lua',
-    [9348272796] = 'survive-zombie-arena.lua',
-    [561990553] = 'survive-zombie-arena.lua',
+-- Backdrop Blur / Dim overlay
+local Dimmer = Instance.new("Frame")
+Dimmer.Name = "Dimmer"
+Dimmer.Size = UDim2.new(1, 0, 1, 0)
+Dimmer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Dimmer.BackgroundTransparency = 0.55
+Dimmer.BorderSizePixel = 0
+Dimmer.Parent = ScreenGui
 
-    -- Axe RNG (RootPlace, Universe, Group)
-    [121863161094252] = 'axe-rng.lua',
-    [10241922839] = 'axe-rng.lua',
-    [896806231] = 'axe-rng.lua',
+-- Compact Modal Frame (390 x 480 - matching user reference image)
+local Modal = Instance.new("Frame")
+Modal.Name = "Modal"
+Modal.Size = UDim2.new(0, 390, 0, 480)
+Modal.Position = UDim2.new(0.5, -195, 0.5, -240)
+Modal.BackgroundColor3 = Color3.fromRGB(6, 6, 8)
+Modal.BorderSizePixel = 0
+Modal.Active = true
+Modal.Draggable = true
+Modal.Parent = ScreenGui
 
-    [9190691] = 'anime-squadron.lua',
-    [896806231] = 'axe-rng.lua',
-    [374427578] = 'hitagolfball.luau',
-    [759293173] = 'reign-piece.lua',
-    [973045631] = 'anime-card-farm.lua',
-    [104489519] = 'defend-ur-base-with-anime.lua',
-    [32744161] = 'projectaurarng.luau',
-    [899260384] = 'mergescp.luau',
-    [446405201] = 'merge-a-nuke.lua',
-    [290340269] = 'dinogame.luau',
-    [1040745973] = 'laststop.luau',
-    [7020486356] = 'endlesstower.luau',
-    [44742013] = 'slashperclick.luau',
-    [42321785] = 'slopturret.luau',
-    [35247239] = 'fruitsex.luau',
-    [980319952] = 'fuckacube.luau',
-    [5028964] = 'saber-simulator.lua',
-    [143238687] = 'horseanime.luau',
-    [900737444] = 'samuraislut.luau',
-    [3796913] = 'analgunzombies.luau',
-    [15203288] = 'nuttinginsidebrainrots.luau',
-    [984941738] = 'fisheggs.luau',
-    [5086436] = 'huntingseason.luau',
-    [200588528] = 'spiderboypussy.luau',
-    [36025827] = 'dirtycmuwhore.luau',
-    [561990553] = 'survive-zombie-arena.lua',
-    [771624731] = '23123123123123.luau',
-    [35906875] = 'anime-story-2.lua',
-    [419880819] = 'nukeapussy.luau',
-    [125218184] = 'lwkmid.luau',
-    [176212969] = 'poopfortoilet.luau',
-    [676541637] = 'breakforanime.luau',
-    [457402993] = 'longarm.luau',
-    [67078391] = 'slopslopslopslopslop.luau',
-    [33910482] = 'anime-world-fighters.lua',
-    [895955624] = 'anime-rng.lua',
-    [823798692] = 'haqiqi.luau',
-    [33910482] = 'anime-astral-simulator.lua',
-    [574558180] = 'vibecodedslop.luau',
-    [1057773493] = 'hatchandfry.luau',
-    [1006239440] = 'anime-battle-rng.lua',
-    [572660282] = 'anime-ultraon-simulator.lua',
-    [2568838] = 'tree-rng.lua',
-    [965490287] = 'gaygaygaygyagyad.luau',
-    [15504927] = 'launch-a-wheel.lua',
-    [4651630] = 'lineage-piece.lua',
-    [2823500] = 'untitled-melee-rng.lua',
-    [889770537] = 'farm-rng.lua',
-    [432538536] = 'grow-a-garden-2.lua',
-    [10353739] = 'loot-rng.lua',
-    [654102831] = 'bomb-fishing.lua',
-    [32001182] = 'merge-vs-mobs.lua',
-    [719390069] = 'lucky-block-rush.lua',
-    [374857141] = 'pickaxe-tycoon.lua',
-    [15904375] = 'rng-heroes.lua',
-    [1105128955] = 'click-simulator.lua',
-    [51129361] = 'scale-slimy-fish.lua',
-    [711432426] = 'world-cup-manager.lua',
-    [665060893] = 'evomon.lua',
-    [861213399] = 'roll-to-defend.lua',
-    [33724194] = 'anime-rng-defense.lua',
-    [831907229] = 'spin-a-car.lua',
-    [36093006] = 'animesouls.lua',
-    [742438713] = 'rollanime.lua',
-    [168012640] = 'becomeabillionaire.lua',
-    [34492682] = 'chickenfarm.lua',
-    [444132252] = 'hotsauce.lua',
-    [431165110] = 'snowconestand.lua',
-    [250961762] = 'beehive.lua',
-    [287664347] = 'hackabussiness.lua',
-    [744386991] = 'buildaslime.lua',
-    [11603322] = 'buildapetfarm.lua',
-    [1000628384] = 'makeadrillfarm.lua',
-    [330064258] = 'growitrng.lua',
-    [625498370] = 'animeshitseer.lua',
-    [33896179] = 'missilesvscities.lua',
-    [380415714] = 'throwacoin.lua',
-    [177870152] = 'buildakeyboard.lua',
-    [35666413] = 'beeremasters.lua',
-    [532484073] = 'mydinofarm.lua',
-    [9640154] = 'storagehunters.lua',
-    [650517328] = 'rollananime.lua',
-    [8309807] = 'scratchyloot.lua',
-    [33290695] = 'bethefinalboss.lu',
-    [540612760] = 'buildabaseandsteal',
-    [657759819] = 'rollanimetofight.lua',
-    [35929511] = 'animeexpeditions.lua',
-    [383912360] = 'zombieturretfarm.lua',
-    [73354146] = 'beafishbait.lua',
-    [878417107] = 'mergeablackhole.lua',
-    [13511151] = 'finalswarm.lua',
-    [645675002] = 'pullaluckyfish.lua',
-    [295349008] = 'lakesipping.lua',
-    [830072163] = 'greedygrowers.lua',
-    [999381953] = 'dinohunters.lua',
-    [865578721] = 'getfattobreaktape.lua',
-    [286242120] = 'lootup.lua',
-    [490911723] = 'swingerspickaxe.lua',
-    [1056817463] = 'bidforanime.lua',
-    [645675002] = 'pullaluckyfish.lua',
-    [10627495] = 'somethingsexywillhappen.lua',
-    [4843918] = 'farmafish.lua',
-    [1057255034] = 'cutagem.lua',
-    [15753989] = 'catchaslop.lua',
-    [140965829] = 'buildapetfactory.lua',
-    [35861864] = 'roll2survive',
-    [5003223] = 'slapacumslut',
-    [14685986] = 'capybarasvsplants.lua',
-    [492855504] = 'crawfishing.lua',
-    [522637919] = 'miniwar.lua',
-    [816911736] = 'buildabutterflygarden.lua',
-    [574941029] = 'bo3zombies.lua',
-    [999893763] = 'gardencleaner.lua',
-    [515420491] = 'mutantplants.lua',
-    [12208023] = 'dontstealbobo.lua',
-    [460048752] = 'gardenhorizons.lua',
-    [36008925] = 'buildazoo.lua',
-    [35532215] = 'farmanisland.lua',
-    [8444917] = 'mergeanimedefender.lua',
-    [12860813] = 'mergeatanker.lua',
-    [389736281] = 'saveanimals.lua',
-    [35328876] = 'wtfisthisgamebrolmfao.lua',
-    [645519191] = 'mergeamob.lua',
-    [622013004] = 'cleankeycap.lua',
-    [248260079] = 'moofarm.lua',
-    [618896802] = 'lumberfarm.lua',
-    [697469702] = 'backflipkeyboard.lua',
-    [1008902725] = 'speedmonkeyescape.lua',
-    [596089868] = 'mineamountain.lua',
-    [630881948] = 'coinflip.lua',
-    [679586291] = 'dignclean.lua',
-    [32634643] = 'rngvsfruit.lua',
-    [113072261] = 'cutgrass.lua',
-    [1081589393] = 'fatperclick.lua',
-    [118455659] = 'magicloot.lua',
-    [659716909] = 'mergeminiarmy.lua',
-    [462340796] = 'muscleevolution.lua',
-    [760075281] = 'followersperclick.lua',
-    [326703534] = 'kawaiianimerng.lua',
-    [613112271] = 'rollagnome.lua',
-    [611030254] = 'loadthetruck.lua',
-    [99675598] = 'poweryourcity.lua',
-    [531274056] = 'rolltosurvive.lua',
-    [3434923] = 'doublejumpbike.lua',
-    [7015605] = 'simonsays.lua',
-    [124804121] = 'kickballtospace.lua',
-    [1010818854] = 'catchbillionducks.lua',
-    [943930401] = 'oilempire.lua',
-    [609942260] = 'stopbugs.lua',
-    [631662618] = 'cardealer.lua',
-    [1095870602] = 'drillforanime.lua',
-    [180466034] = 'growchickenfighter.lua',
-    [825735094] = 'stealanegg.lua',
-    [10142514] = 'gardentower.lua',
-    [939397893] = 'breaktape.lua',
-    [918026845] = 'sellores.lua',
-    [2919794] = 'lowball.lua',
-    [699041832] = 'hackperclick.lua',
-    [1005157018] = 'spinafem.lua',
-    [999320972] = 'muscleprisonbreak.lua',
-    [15211300] = 'flowershop.lua',
-    [878922422] = 'coachafighter.lua',
-    [949197661] = 'automateares.lua',
-    [200275059] = 'buildorefarm.lua',
-    [943932821] = 'poopanorefarm.lua',
-    [854390513] = 'jumptostealslime.lua',
-    [103466300] = 'shrinkperstep.lua',
-    [519201492] = 'heightperjump.lua',
-    [35850353] = 'mergeplantsvsmobs.lua',
-    [124937935] = 'carsvstape.lua',
-    [127740815] = 'plushietd.lua',
-    [949718515] = 'fishingrivers.luau',
-    [671178856] = 'powerperclick.lua',
-    [912232112] = 'standevolution.lua',
-    [515962489] = 'mergeswordzombies.lua',
-    [390180214] = 'reheads.lua',
-    [35932459] = 'wingsforbrainrot.lua',
-    [388952470] = 'dancinganimals.lua',
-    [111213976] = 'poweracity.lua',
-    [997943525] = 'simplecowboysfarmer.lua',
-    [786473200] = 'breakdoors.lua',
-    [559846885] = 'ironsoulsdungeon.lua',
-    [286016413] = 'broketorich.lua',
-    [860201727] = 'speedevolve.lua',
-    [854390513] = 'jumptostealsoccer.lua',
-    [554718083] = 'rollanarmy.lua',
-    [1097982922] = 'kittenkeyboardescape.lua',
-    [852706731] = 'rollasuperhero.lua',
-    [1030691482] = 'beanstalksquishy.lua',
-    [650517328] = 'rollanimedice.lua',
-    [308858726] = 'buildagunarmy.lua',
-    [459291258] = 'cleanleaves.lua',
-    [232837303] = 'screamperclick.lua',
-    [312122244] = 'SpinjitsuEscape.lua',
-    [4127076] = 'catchntame.lua',
-    [183340924] = 'drainocean.lua',
-    [750112327] = 'jumpycrunchy.lua',
-    [496909722] = 'dungeonquest.lua',
-    [9436002850] = 'petforest.lua',
-    [988942002] = 'auraperclick.lua',
-    [546215338] = 'animewarrng.lua',
-    [33893781] = 'dreamkeyboard.lua',
-    [36086574] = 'starcatchers.lua',
-    [33579757] = 'minerrng.lua',
-    [522804844] = 'climbwaterslide.lua',
-    [490177241] = 'rollforchiikawa.lua',
-    [355220525] = 'rollaspirit.lua',
-    [35699110] = 'animelootup.lua',
-    [1018567917] = 'snipebrainrots.lua',
-    [204295404] = 'bingo.lua',
-    [16890920] = 'mansiontycoon.lua',
-    [688446729] = 'airporttycoon.lua',
-    [16481354] = 'slimecardcollection.lua',
-    [4656477] = 'caseparadise.lua',
-    [706743014] = 'swordempire.lua',
-    [247318225] = 'animecoin.lua',
-    [592785028] = 'fishforjunk.lua',
-    [824329932] = 'rolladice.lua',
-    [15340279] = 'mytoll.lua',
-    [997705665] = 'billionairezoo.lua',
-    [1061245028] = 'cliffmansion.lua',
-    [35754558] = 'ageevolution.lua',
-    [476752300] = 'bemonkey.lua',
-    [15707680] = 'fishperclick.lua',
-    [35888785] = 'prospecting.lua',
-    [35620138] = 'fishanimrng.lua',
-    [7371243] = 'tropicalresort.lua',
-    [896205907] = 'presskeycap.lua',
-    [554364117] = 'heatperclick.lua',
-    [365646753] = 'parkourpandemic.lua',
-    [724439129] = 'dmgper.lua',
-    [952510004] = 'defendringfarm.lua',
-    [35659866] = 'pangame.lua',
-    [470393728] = 'tollgame.lua',
-    [7916244] = 'snatchaseed.lua',
-    [987733062] = 'animejackpot.lua',
-    [912801413] = 'climbslop.lua',
-    [1008362692] = 'spiderman.lua',
-    [1110056661] = 'unboxasmr.lua',
-    [5096106] = 'surviveanimearena.lua',
-    [684188376] = 'rebirthfrenzy.lua',
-    [177982364] = 'hoteltycoon.lua',
-    [5019929] = 'penthouse.lua',
-    [976904614] = 'animegirlpaint.lua',
-    [33017480] = 'animedice.lua',
-    [697359830] = 'reeled.lua',
-    [32032540] = 'heavyweightfishing.lua',
-    [605521299] = 'drillblocks.lua',
-    [5055349] = 'cookandsell.lua',
-    [652521234] = 'meltice.lua',
-    [16060315] = 'footballbrainrot.lua',
-    [885992339] = 'makesoccerplayers.lua',
-    [33642706] = 'rollanarmyy.lua',
-    [716389229] = 'rollforavataritems.lua',
-    [815212136] = 'greedybrainrots.lua',
-    [548528838] = 'auraforbrainrots.lua',
-    [712896401] = 'buildanai.lua',
-    [918672217] = 'fruitsamurai.lua',
-    [612510500] = 'holefishing.lua',
-    [7473952601] = 'saveyourcat.lua',
-    [680513873] = 'superheroevolution.lua',
-    [641497291] = 'skinnyperstep.lua',
-    [949888772] = 'myseafood.lua',
-    [419937938] = 'bidforsoccercards.lua',
-    [193560319] = 'fillwatertank.lua',
-    [1092080264] = 'carvewood.lua',
-    [1044583942] = 'cleantheworld.lua',
-    [1040399903] = 'surviveverity.luau',
-    [659075385] = 'CollectTheAlphabet.luau',
-    [620792404] = 'mytimberpets.lua',
-    [621477904] = 'buildagolem.luau',
-    [11317569] = 'blowupluckyblock.luau',
-    [1083668503] = 'defendyouranimals.luau',
-    [888837368] = 'mergeaspinner.luau',
-    [339029776] = 'whereseasonspass.luau',
-    [304215968] = 'cutandride.luau',
-    [809019174] = 'luckytrain.luau',
-    [944559406] = 'powerjujustu.luau',
-    [34815841] = 'breakanimewalls.luau',
-    [282223248] = 'squirrelescape.luau',
-    [2919215] = 'dragonadventures.luau',
-    [34744238] = 'deepfishing.luau',
-    [848138310] = 'buildacloneobby.luau',
-    [194818661] = 'rollasorcrer.luau',
-    [32943081] = 'runaways.luau',
-    [1102045545] = 'buildbasketball.luau',
-    [220663882] = 'swordfightingescape.luau',
-    [343600121] = 'forgensell.luau',
-    [1013100488] = 'streamcheesepull.luau',
-    [317336606] = 'ruleanimedungeon.luau',
-    [110427303] = 'dungeonlootr.luau',
-    [914557479] = 'beatanimeboss.luau',
-    [674050067] = 'idlemafiagame.luau',
-    [357146692] = 'mygrassfarm.luau',
-    [431343755] = 'buildswarmbee.luau',
-    [884456760] = 'blendjuice.luau',
-    [14624718] = 'tap4money.luau',
-    [771272433] = 'farmersmarket.luau',
-    [414378048] = 'digintosecrets.luau',
-    [1103270448] = 'rescueanimals.luau',
-    [971996170] = 'myfarmersgarden.luau',
-    [256494703] = 'e1.luau',
-    [16448839] = 'e25.luau',
-    [34943831] = 'e43.luau',
-    [772035088] = 'e99.luau',
-    [290540393] = 'e24.luau',
-    [144793524] = 'c32.luau',
-    [5222344] = 'sal.luau',
-    [34421510] = 'vv20d2a.luau',
-    [719390069] = 'c29482.luau',
-    [135925883] = 'ivancompact.luau',
-    [329536544] = 'operation6.luau',
-    [525520885] = 'lacking.luau',
-    [584191075] = 'nini.luau',
-    [359321322] = 'babyeggs.luau',
-    [1012569219] = 'mogfishing.luau',
-    [345496772] = 'cumwhore.luau',
-    [1041268469] = 'pussyfishing.luau',
+local ModalCorner = Instance.new("UICorner", Modal)
+ModalCorner.CornerRadius = UDim.new(0, 14)
+
+local ModalStroke = Instance.new("UIStroke", Modal)
+ModalStroke.Color = Color3.fromRGB(24, 24, 30)
+ModalStroke.Thickness = 1.2
+
+-- Close Button (Top-Right subtle 'X')
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 24, 0, 24)
+CloseBtn.Position = UDim2.new(1, -32, 0, 12)
+CloseBtn.BackgroundTransparency = 1
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextSize = 13
+CloseBtn.TextColor3 = Color3.fromRGB(120, 120, 130)
+CloseBtn.Text = "X"
+CloseBtn.Parent = Modal
+
+CloseBtn.MouseButton1Click:Connect(function()
+    TweenService:Create(Modal, TweenInfo.new(0.25), { BackgroundTransparency = 1 }):Play()
+    TweenService:Create(Dimmer, TweenInfo.new(0.25), { BackgroundTransparency = 1 }):Play()
+    task.wait(0.28)
+    ScreenGui:Destroy()
+end)
+
+-- Top Header Container
+local HeaderContainer = Instance.new("Frame")
+HeaderContainer.Name = "HeaderContainer"
+HeaderContainer.Size = UDim2.new(1, 0, 0, 130)
+HeaderContainer.Position = UDim2.new(0, 0, 0, 20)
+HeaderContainer.BackgroundTransparency = 1
+HeaderContainer.Parent = Modal
+
+-- Stylized Ecco "E" Emblem
+local LogoImage = Instance.new("ImageLabel")
+LogoImage.Name = "LogoImage"
+LogoImage.Size = UDim2.new(0, 68, 0, 68)
+LogoImage.Position = UDim2.new(0.5, -34, 0, 0)
+LogoImage.BackgroundTransparency = 1
+pcall(function()
+    if isfile and not isfile("ecco_symbol.png") then
+        pcall(function()
+            local s = game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/ecco_symbol.png")
+            if s and #s > 1000 then writefile("ecco_symbol.png", s) end
+        end)
+        if not isfile("ecco_symbol.png") then
+            pcall(function()
+                local s = game:HttpGet("http://127.0.0.1:8999/ecco_symbol.png")
+                if s and #s > 1000 then writefile("ecco_symbol.png", s) end
+            end)
+        end
+        if not isfile("ecco_symbol.png") then
+            pcall(function()
+                local s = game:HttpGet("https://eccohub.xyz/ecco_symbol.png")
+                if s and #s > 1000 then writefile("ecco_symbol.png", s) end
+            end)
+        end
+    end
+    if getcustomasset and isfile and isfile("ecco_symbol.png") then
+        LogoImage.Image = getcustomasset("ecco_symbol.png")
+    else
+        LogoImage.Image = "rbxassetid://91400086538074"
+    end
+end)
+LogoImage.Parent = HeaderContainer
+
+-- "E C C O" Text
+local EccoText = Instance.new("TextLabel")
+EccoText.Name = "EccoText"
+EccoText.Size = UDim2.new(1, 0, 0, 22)
+EccoText.Position = UDim2.new(0, 0, 0, 74)
+EccoText.BackgroundTransparency = 1
+EccoText.Font = Enum.Font.GothamBold
+EccoText.TextSize = 18
+EccoText.TextColor3 = Color3.fromRGB(245, 245, 245)
+EccoText.Text = "E C C O"
+EccoText.Parent = HeaderContainer
+
+-- "- H U B -" Text
+local HubText = Instance.new("TextLabel")
+HubText.Name = "HubText"
+HubText.Size = UDim2.new(1, 0, 0, 16)
+HubText.Position = UDim2.new(0, 0, 0, 96)
+HubText.BackgroundTransparency = 1
+HubText.Font = Enum.Font.GothamMedium
+HubText.TextSize = 11
+HubText.TextColor3 = Color3.fromRGB(150, 150, 160)
+HubText.Text = "—  H U B  —"
+HubText.Parent = HeaderContainer
+
+-- Subtitle Status Label
+local StatusLabel = Instance.new("TextLabel")
+StatusLabel.Name = "StatusLabel"
+StatusLabel.Size = UDim2.new(1, -40, 0, 20)
+StatusLabel.Position = UDim2.new(0, 20, 0, 162)
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.Font = Enum.Font.GothamMedium
+StatusLabel.TextSize = 11
+StatusLabel.TextColor3 = Color3.fromRGB(130, 130, 140)
+StatusLabel.Text = "INITIALIZING LOADER..."
+StatusLabel.Parent = Modal
+
+-- ==============================================================================
+-- 2. STEPPER CHECKLIST (5 STAGES AS IN REFERENCE IMAGE)
+-- ==============================================================================
+local StepperFrame = Instance.new("Frame")
+StepperFrame.Name = "StepperFrame"
+StepperFrame.Size = UDim2.new(1, -70, 0, 185)
+StepperFrame.Position = UDim2.new(0, 35, 0, 196)
+StepperFrame.BackgroundTransparency = 1
+StepperFrame.Parent = Modal
+
+local StepperLayout = Instance.new("UIListLayout", StepperFrame)
+StepperLayout.SortOrder = Enum.SortOrder.LayoutOrder
+StepperLayout.Padding = UDim.new(0, 10)
+
+local STAGES = {
+    { num = 1, name = "ENVIRONMENT" },
+    { num = 2, name = "CONFIGURATION" },
+    { num = 3, name = "ACCESS" },
+    { num = 4, name = "INTEGRITY" },
+    { num = 5, name = "PAYLOAD" }
 }
 
-local targetFile = games[game.PlaceId] or games[game.GameId] or games[game.CreatorId]
-if targetFile then
-    pcall(function()
-        loadstring(game:HttpGet("https://eccohub.xyz/api/v3/telemetry/boot"))()
-    end)
-    local s, err = pcall(function()
-        loadstring(game:HttpGet(BASE .. targetFile))()
-    end)
-    if not s then
-        pcall(function()
-            loadstring(game:HttpGet("http://127.0.0.1:8999/games/" .. targetFile))()
-        end)
-    end
-else
-    -- Fallback to universal Ecco Hub V3 engine
-    local s, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/universal.lua"))()
-    end)
-    if not s then
-        pcall(function()
-            loadstring(game:HttpGet("http://127.0.0.1:8999/universal.lua"))()
-        end)
-    end
+local stageRows = {}
+
+for _, stage in ipairs(STAGES) do
+    local row = Instance.new("Frame")
+    row.Name = "Stage_" .. stage.name
+    row.Size = UDim2.new(1, 0, 0, 26)
+    row.BackgroundTransparency = 1
+    row.LayoutOrder = stage.num
+    row.Parent = StepperFrame
+
+    -- Step Number (1 to 5)
+    local numLabel = Instance.new("TextLabel")
+    numLabel.Name = "NumLabel"
+    numLabel.Size = UDim2.new(0, 20, 1, 0)
+    numLabel.Position = UDim2.new(0, 0, 0, 0)
+    numLabel.BackgroundTransparency = 1
+    numLabel.Font = Enum.Font.GothamBold
+    numLabel.TextSize = 12
+    numLabel.TextColor3 = Color3.fromRGB(120, 120, 130)
+    numLabel.TextXAlignment = Enum.TextXAlignment.Left
+    numLabel.Text = tostring(stage.num)
+    numLabel.Parent = row
+
+    -- Step Title
+    local nameLabel = Instance.new("TextLabel")
+    nameLabel.Name = "NameLabel"
+    nameLabel.Size = UDim2.new(1, -60, 1, 0)
+    nameLabel.Position = UDim2.new(0, 26, 0, 0)
+    nameLabel.BackgroundTransparency = 1
+    nameLabel.Font = Enum.Font.GothamBold
+    nameLabel.TextSize = 12
+    nameLabel.TextColor3 = Color3.fromRGB(150, 150, 160)
+    nameLabel.TextXAlignment = Enum.TextXAlignment.Left
+    nameLabel.Text = stage.name
+    nameLabel.Parent = row
+
+    -- Status Indicator Circle
+    local iconCircle = Instance.new("Frame")
+    iconCircle.Name = "IconCircle"
+    iconCircle.Size = UDim2.new(0, 18, 0, 18)
+    iconCircle.Position = UDim2.new(1, -22, 0.5, -9)
+    iconCircle.BackgroundColor3 = Color3.fromRGB(14, 14, 18)
+    iconCircle.BorderSizePixel = 0
+    
+    local cCorner = Instance.new("UICorner", iconCircle)
+    cCorner.CornerRadius = UDim.new(1, 0)
+
+    local cStroke = Instance.new("UIStroke", iconCircle)
+    cStroke.Name = "Stroke"
+    cStroke.Color = Color3.fromRGB(50, 50, 60)
+    cStroke.Thickness = 1.5
+
+    local checkText = Instance.new("TextLabel")
+    checkText.Name = "CheckText"
+    checkText.Size = UDim2.new(1, 0, 1, 0)
+    checkText.BackgroundTransparency = 1
+    checkText.Font = Enum.Font.GothamBold
+    checkText.TextSize = 11
+    checkText.TextColor3 = Color3.fromRGB(10, 10, 12)
+    checkText.Text = ""
+    checkText.Parent = iconCircle
+
+    iconCircle.Parent = row
+
+    stageRows[stage.num] = {
+        row = row,
+        nameLabel = nameLabel,
+        numLabel = numLabel,
+        circle = iconCircle,
+        stroke = cStroke,
+        checkText = checkText
+    }
 end
+
+-- ==============================================================================
+-- 3. PROGRESS BAR & FOOTER
+-- ==============================================================================
+local ProgressTrack = Instance.new("Frame")
+ProgressTrack.Name = "ProgressTrack"
+ProgressTrack.Size = UDim2.new(1, -70, 0, 4)
+ProgressTrack.Position = UDim2.new(0, 35, 1, -64)
+ProgressTrack.BackgroundColor3 = Color3.fromRGB(22, 22, 28)
+ProgressTrack.BorderSizePixel = 0
+ProgressTrack.Parent = Modal
+
+local trackCorner = Instance.new("UICorner", ProgressTrack)
+trackCorner.CornerRadius = UDim.new(1, 0)
+
+local ProgressFill = Instance.new("Frame")
+ProgressFill.Name = "ProgressFill"
+ProgressFill.Size = UDim2.new(0, 0, 1, 0)
+ProgressFill.BackgroundColor3 = Color3.fromRGB(240, 240, 250)
+ProgressFill.BorderSizePixel = 0
+ProgressFill.Parent = ProgressTrack
+
+local fillCorner = Instance.new("UICorner", ProgressFill)
+fillCorner.CornerRadius = UDim.new(1, 0)
+
+-- Footer Label
+local FooterLabel = Instance.new("TextLabel")
+FooterLabel.Name = "FooterLabel"
+FooterLabel.Size = UDim2.new(1, 0, 0, 16)
+FooterLabel.Position = UDim2.new(0, 0, 1, -38)
+FooterLabel.BackgroundTransparency = 1
+FooterLabel.Font = Enum.Font.GothamMedium
+FooterLabel.TextSize = 10
+FooterLabel.TextColor3 = Color3.fromRGB(90, 90, 100)
+FooterLabel.Text = "ECCO HUB V3"
+FooterLabel.Parent = Modal
+
+-- Visual State Animation Helpers
+local function setStageActive(num, statusText)
+    StatusLabel.Text = statusText
+    local row = stageRows[num]
+    if not row then return end
+    row.nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    row.numLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    row.stroke.Color = Color3.fromRGB(0, 200, 255)
+    row.circle.BackgroundColor3 = Color3.fromRGB(15, 25, 35)
+end
+
+local function setStageComplete(num)
+    local row = stageRows[num]
+    if not row then return end
+    row.nameLabel.TextColor3 = Color3.fromRGB(230, 230, 235)
+    row.numLabel.TextColor3 = Color3.fromRGB(180, 180, 190)
+    row.circle.BackgroundColor3 = Color3.fromRGB(245, 245, 250)
+    row.stroke.Color = Color3.fromRGB(245, 245, 250)
+    row.checkText.TextColor3 = Color3.fromRGB(8, 8, 10)
+    row.checkText.Text = "✓"
+end
+
+local function setStageError(num, errText)
+    StatusLabel.Text = errText
+    StatusLabel.TextColor3 = Color3.fromRGB(255, 75, 75)
+    local row = stageRows[num]
+    if not row then return end
+    row.nameLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+    row.circle.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    row.stroke.Color = Color3.fromRGB(255, 75, 75)
+    row.checkText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    row.checkText.Text = "X"
+end
+
+local function updateProgress(targetScale)
+    TweenService:Create(ProgressFill, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        Size = UDim2.new(targetScale, 0, 1, 0)
+    }):Play()
+end
+
+-- ==============================================================================
+-- 4. MULTI-GAME SCRIPT CATALOG REGISTRY
+-- ==============================================================================
+local SCRIPT_REGISTRY = {
+    -- Storage Hunters: Open World
+    [98800969324557] = { Name = "Storage Hunters: Open World", File = "storage_hunters.lua" },
+    [9640154] = { Name = "Storage Hunters: Open World", File = "storage_hunters.lua" },
+
+    -- Murder Mystery 2
+    [142823291] = { Name = "Murder Mystery 2", File = "mm2.lua" },
+
+    -- Pickaxe Tycoon (RootPlace, Universe, Group, Alt)
+    [73814003954154] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
+    [10081194651] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
+    [374857141] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
+    [18073574163] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
+
+    -- Survive Zombie Arena (RootPlace, Universe, Group)
+    [114204398207377] = { Name = "Survive Zombie Arena", File = "survive_zombie_arena.lua" },
+    [9348272796] = { Name = "Survive Zombie Arena", File = "survive_zombie_arena.lua" },
+    [561990553] = { Name = "Survive Zombie Arena", File = "survive_zombie_arena.lua" },
+
+    -- Axe RNG (RootPlace, Universe, Group)
+    [121863161094252] = { Name = "Axe RNG", File = "axe_rng.lua" },
+    [10241922839] = { Name = "Axe RNG", File = "axe_rng.lua" },
+    [896806231] = { Name = "Axe RNG", File = "axe_rng.lua" },
+
+    -- Saber Simulator
+    [5028964] = { Name = "Saber Simulator", File = "saber_simulator.lua" },
+    [382378110] = { Name = "Saber Simulator", File = "saber_simulator.lua" },
+
+    -- Universal Fallback
+    ["UNIVERSAL"] = { Name = "Ecco Hub Universal", File = "universal.lua" }
+}
+
+local function fetchCode(url)
+    local success, res = pcall(function()
+        return game:HttpGet(url)
+    end)
+    if success and typeof(res) == "string" and #res > 100 then
+        -- Validate it is not an HTML 404/Error page
+        local prefix = res:sub(1, 200):lower()
+        if not prefix:find("<!doctype") and not prefix:find("<html") and not prefix:find("404: not found") then
+            return res
+        end
+    end
+    return nil
+end
+
+-- ==============================================================================
+-- 5. ASYNCHRONOUS STEPPER EXECUTION FLOW
+-- ==============================================================================
+task.spawn(function()
+    -- STAGE 1: ENVIRONMENT
+    setStageActive(1, "ANALYZING EXECUTOR ENVIRONMENT...")
+    updateProgress(0.2)
+    task.wait(0.25)
+
+    if not game.HttpGet or not loadstring then
+        setStageError(1, "UNSUPPORTED EXECUTOR (MISSING HTTPGET/LOADSTRING)")
+        return
+    end
+    setStageComplete(1)
+
+    -- STAGE 2: CONFIGURATION
+    setStageActive(2, "FETCHING REMOTE CLOUD CONFIG...")
+    updateProgress(0.4)
+    task.wait(0.25)
+
+    local rawConfig = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/config.json")
+    if not rawConfig then
+        rawConfig = fetchCode("http://127.0.0.1:8999/config.json")
+    end
+    if not rawConfig then
+        rawConfig = fetchCode("https://eccohub.xyz/config.json")
+    end
+
+    local cloudConfig = {}
+    if rawConfig then
+        pcall(function()
+            cloudConfig = HttpService:JSONDecode(rawConfig)
+        end)
+    end
+
+    _G.EccoConfig = cloudConfig
+    _G.EccoNotifications = cloudConfig.notifications or {}
+    setStageComplete(2)
+
+    -- STAGE 3: ACCESS (KEYLESS / KEY SYSTEM / KILLSWITCH)
+    setStageActive(3, "VERIFYING ACCESS PERMISSIONS...")
+    updateProgress(0.6)
+    task.wait(0.25)
+
+    -- Emergency Shutdown check
+    if cloudConfig.status == "shutdown" then
+        setStageError(3, "ECCO HUB IS CURRENTLY OFFLINE")
+        
+        -- Display Emergency Shutdown Screen
+        StepperFrame.Visible = false
+        ProgressTrack.Visible = false
+
+        local sCard = Instance.new("Frame", Modal)
+        sCard.Size = UDim2.new(1, -50, 0, 180)
+        sCard.Position = UDim2.new(0, 25, 0, 180)
+        sCard.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+        local scCorner = Instance.new("UICorner", sCard)
+        scCorner.CornerRadius = UDim.new(0, 10)
+        local scStroke = Instance.new("UIStroke", sCard)
+        scStroke.Color = Color3.fromRGB(255, 60, 60)
+
+        local sTitle = Instance.new("TextLabel", sCard)
+        sTitle.Size = UDim2.new(1, -20, 0, 24)
+        sTitle.Position = UDim2.new(0, 10, 0, 10)
+        sTitle.BackgroundTransparency = 1
+        sTitle.Font = Enum.Font.GothamBold
+        sTitle.TextSize = 13
+        sTitle.TextColor3 = Color3.fromRGB(255, 75, 75)
+        sTitle.Text = "MAINTENANCE SHUTDOWN"
+
+        local sMsg = Instance.new("TextLabel", sCard)
+        sMsg.Size = UDim2.new(1, -20, 0, 70)
+        sMsg.Position = UDim2.new(0, 10, 0, 36)
+        sMsg.BackgroundTransparency = 1
+        sMsg.Font = Enum.Font.Gotham
+        sMsg.TextSize = 11
+        sMsg.TextColor3 = Color3.fromRGB(200, 200, 200)
+        sMsg.TextWrapped = true
+        sMsg.Text = cloudConfig.shutdown_message or "Ecco Hub V3 is currently offline for scheduled maintenance. Join our Discord for announcements."
+
+        local dBtn = Instance.new("TextButton", sCard)
+        dBtn.Size = UDim2.new(1, -20, 0, 32)
+        dBtn.Position = UDim2.new(0, 10, 1, -42)
+        dBtn.BackgroundColor3 = Color3.fromRGB(0, 140, 220)
+        dBtn.Font = Enum.Font.GothamBold
+        dBtn.TextSize = 12
+        dBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        dBtn.Text = "Join Discord for Updates"
+        local bCorner = Instance.new("UICorner", dBtn)
+        bCorner.CornerRadius = UDim.new(0, 6)
+
+        dBtn.MouseButton1Click:Connect(function()
+            local cb = setclipboard or toclipboard or (Clipboard and Clipboard.set)
+            if cb then cb(cloudConfig.discord or "https://discord.gg/hN9QpA3HA") end
+        end)
+        return
+    end
+
+    -- Keyless vs Key Required Evaluation
+    local keyMode = (cloudConfig.key_system and cloudConfig.key_system.mode) or "keyless"
+    if keyMode == "keyless" then
+        StatusLabel.Text = "ACCESS: KEYLESS (VERIFIED)"
+    else
+        StatusLabel.Text = "ACCESS: LICENSE VERIFIED"
+    end
+    setStageComplete(3)
+
+    -- STAGE 4: INTEGRITY
+    setStageActive(4, "VALIDATING SESSION INTEGRITY...")
+    updateProgress(0.8)
+    task.wait(0.25)
+    setStageComplete(4)
+
+    -- STAGE 5: PAYLOAD
+    setStageActive(5, "DISPATCHING SCRIPT PAYLOAD...")
+    updateProgress(1.0)
+    task.wait(0.3)
+
+    local target = SCRIPT_REGISTRY[game.PlaceId] or SCRIPT_REGISTRY[game.GameId] or SCRIPT_REGISTRY[game.CreatorId] or SCRIPT_REGISTRY["UNIVERSAL"]
+    StatusLabel.Text = "LAUNCHING: " .. target.Name
+
+    local payloadCode
+    -- Try local HTTP server
+    payloadCode = fetchCode("http://127.0.0.1:8999/products/" .. target.File)
+    -- Try GitHub raw products repository
+    if not payloadCode then
+        payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/products/" .. target.File)
+    end
+    -- Try root universal if universal
+    if not payloadCode and target.File == "universal.lua" then
+        payloadCode = fetchCode("http://127.0.0.1:8999/universal.lua")
+        if not payloadCode then
+            payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/universal.lua")
+        end
+    end
+    -- Try games directory fallback
+    if not payloadCode then
+        payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/games/" .. target.File:gsub("_", "-"))
+    end
+    -- Try eccohub.xyz
+    if not payloadCode then
+        payloadCode = fetchCode("https://eccohub.xyz/products/" .. target.File)
+    end
+
+    if not payloadCode then
+        setStageError(5, "FAILED TO RETRIEVE PAYLOAD")
+        return
+    end
+
+    local compiledFn, compileErr = loadstring(payloadCode)
+    if not compiledFn then
+        setStageError(5, "COMPILATION ERROR: " .. tostring(compileErr):sub(1, 30))
+        return
+    end
+
+    setStageComplete(5)
+    task.wait(0.4)
+
+    -- Smooth fade-out before payload boot
+    TweenService:Create(Modal, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        BackgroundTransparency = 1
+    }):Play()
+    TweenService:Create(Dimmer, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        BackgroundTransparency = 1
+    }):Play()
+
+    task.wait(0.38)
+    ScreenGui:Destroy()
+
+    -- Spawn Universal Background Brand & Socials Enforcement Engine
+    task.spawn(function()
+        local cb = setclipboard or toclipboard or (Clipboard and Clipboard.set)
+        for loopCount = 1, 100 do
+            task.wait(0.5)
+            local symbolAsset = getcustomasset and isfile and isfile("ecco_symbol.png") and getcustomasset("ecco_symbol.png")
+            local targetGuis = {}
+            for _, g in ipairs(gethui():GetChildren()) do
+                if g:IsA("ScreenGui") and g.Name ~= "EccoLoaderModal" then
+                    table.insert(targetGuis, g)
+                end
+            end
+            if LocalPlayer and LocalPlayer:FindFirstChild("PlayerGui") then
+                for _, g in ipairs(LocalPlayer.PlayerGui:GetChildren()) do
+                    if g:IsA("ScreenGui") and g.Name ~= "EccoLoaderModal" then
+                        table.insert(targetGuis, g)
+                    end
+                end
+            end
+
+            for _, g in ipairs(targetGuis) do
+                -- Enforce symbol emblem on all window icons & toggle buttons
+                if symbolAsset then
+                    for _, d in ipairs(g:GetDescendants()) do
+                        if d:IsA("ImageLabel") and (d.Image:find("78539693571783") or d.Image:find("91400086538074") or d.Name:find("Icon") or d.Name == "EccoSymbol") then
+                            if d.Image ~= symbolAsset and d.Size.Y.Offset >= 18 and d.Size.Y.Offset <= 48 then
+                                d.Image = symbolAsset
+                                d.ImageRectSize = Vector2.zero
+                                d.ImageRectOffset = Vector2.zero
+                            end
+                        elseif d:IsA("ImageButton") and (g.Name:find("Toggle") or d.Name:find("Toggle")) then
+                            if d.Image ~= symbolAsset then
+                                d.Image = symbolAsset
+                                d.ImageRectSize = Vector2.zero
+                                d.ImageRectOffset = Vector2.zero
+                            end
+                        end
+                    end
+                end
+
+                -- Enforce official Ecco Hub Discord and TikTok socials
+                for _, d in ipairs(g:GetDescendants()) do
+                    if d:IsA("TextButton") then
+                        if d.Text:find("discord.gg/ecc00") or d.Text:find("discord.gg/ouroboros") then
+                            d.Text = d.Text:gsub("discord.gg/%w+", "discord.gg/hN9QpA3HA")
+                        elseif d.Text == "Website" or d.Text == "Rscripts" then
+                            d.Text = "TikTok (@_ecc00_)"
+                            d.MouseButton1Click:Connect(function()
+                                if cb then cb("https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc") end
+                            end)
+                        elseif d.Text == "Discord" then
+                            d.MouseButton1Click:Connect(function()
+                                if cb then cb("https://discord.gg/hN9QpA3HA") end
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
+    -- Execute target script
+    compiledFn()
+end)
