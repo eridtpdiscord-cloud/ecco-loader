@@ -329,38 +329,93 @@ local function updateProgress(targetScale)
 end
 
 -- ==============================================================================
--- 4. MULTI-GAME SCRIPT CATALOG REGISTRY
+-- 4. COMPLETE 14-GAME CATALOG ROUTING MATRIX
 -- ==============================================================================
-local SCRIPT_REGISTRY = {
-    -- Storage Hunters: Open World
-    [98800969324557] = { Name = "Storage Hunters: Open World", File = "storage_hunters.lua" },
-    [9640154] = { Name = "Storage Hunters: Open World", File = "storage_hunters.lua" },
-
-    -- Murder Mystery 2
-    [142823291] = { Name = "Murder Mystery 2", File = "mm2.lua" },
-
-    -- Pickaxe Tycoon (RootPlace, Universe, Group, Alt)
-    [73814003954154] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
-    [10081194651] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
-    [374857141] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
-    [18073574163] = { Name = "Pickaxe Tycoon", File = "pickaxe_tycoon.lua" },
-
-    -- Survive Zombie Arena (RootPlace, Universe, Group)
-    [114204398207377] = { Name = "Survive Zombie Arena", File = "survive_zombie_arena.lua" },
-    [9348272796] = { Name = "Survive Zombie Arena", File = "survive_zombie_arena.lua" },
-    [561990553] = { Name = "Survive Zombie Arena", File = "survive_zombie_arena.lua" },
-
-    -- Axe RNG (RootPlace, Universe, Group)
-    [121863161094252] = { Name = "Axe RNG", File = "axe_rng.lua" },
-    [10241922839] = { Name = "Axe RNG", File = "axe_rng.lua" },
-    [896806231] = { Name = "Axe RNG", File = "axe_rng.lua" },
-
-    -- Saber Simulator
-    [5028964] = { Name = "Saber Simulator", File = "saber_simulator.lua" },
-    [382378110] = { Name = "Saber Simulator", File = "saber_simulator.lua" },
-
-    -- Universal Fallback
-    ["UNIVERSAL"] = { Name = "Ecco Hub Universal", File = "universal.lua" }
+local ROUTE_MAP = {
+    ["storage_hunters"] = {
+        places = {98800969324557},
+        creators = {9640154},
+        file = "storage_hunters.lua",
+        name = "Storage Hunters: Open World"
+    },
+    ["saber_simulator"] = {
+        places = {3823781113, 3823781100, 382378110},
+        creators = {5028964},
+        file = "saber_simulator.lua",
+        name = "Saber Simulator"
+    },
+    ["anime_squadron"] = {
+        places = {},
+        creators = {9190691},
+        file = "anime_squadron.lua",
+        name = "Anime Squadron"
+    },
+    ["axe_rng"] = {
+        places = {121863161094252, 10241922839},
+        creators = {896806231},
+        file = "axe_rng.lua",
+        name = "Axe RNG"
+    },
+    ["click_simulator"] = {
+        places = {},
+        creators = {1105128955},
+        file = "click_simulator.lua",
+        name = "Click Simulator"
+    },
+    ["survive_zombie"] = {
+        places = {114204398207377, 9348272796},
+        creators = {561990553},
+        file = "survive_zombie_arena.lua",
+        name = "Survive Zombie Arena"
+    },
+    ["merge_scp"] = {
+        places = {},
+        creators = {899260384},
+        file = "merge_scp.lua",
+        name = "Merge SCP"
+    },
+    ["dino_game"] = {
+        places = {},
+        creators = {290340269},
+        file = "dino_game.lua",
+        name = "Dino Game"
+    },
+    ["endless_tower"] = {
+        places = {7020486356},
+        creators = {7020486356},
+        file = "endless_tower.lua",
+        name = "Endless Tower"
+    },
+    ["hunting_season"] = {
+        places = {},
+        creators = {5086436},
+        file = "hunting_season.lua",
+        name = "Hunting Season"
+    },
+    ["pickaxe_tycoon"] = {
+        places = {73814003954154, 10081194651, 18073574163},
+        creators = {374857141},
+        file = "pickaxe_tycoon.lua",
+        name = "Pickaxe Tycoon"
+    },
+    ["sell_lemons"] = {
+        places = {79268393072444},
+        creators = {},
+        file = "sell_lemons.lua",
+        name = "Sell Lemons"
+    },
+    ["mm2"] = {
+        places = {142823291, 66654135, 18206581791},
+        creators = {},
+        file = "mm2.lua",
+        name = "Murder Mystery 2"
+    },
+    ["last_letter"] = {
+        places = {129866685202296},
+        creators = {},
+        file = "last_letter.lua",
+        name = "Last Letter"
+    }
 }
 
 local function fetchCode(url)
@@ -495,7 +550,30 @@ task.spawn(function()
     updateProgress(1.0)
     task.wait(0.3)
 
-    local target = SCRIPT_REGISTRY[game.PlaceId] or SCRIPT_REGISTRY[game.GameId] or SCRIPT_REGISTRY[game.CreatorId] or SCRIPT_REGISTRY["UNIVERSAL"]
+    -- Match game from complete 14-game routing matrix
+    local target = nil
+    for _, route in pairs(ROUTE_MAP) do
+        for _, pid in ipairs(route.places) do
+            if pid == game.PlaceId then
+                target = { Name = route.name, File = route.file }
+                break
+            end
+        end
+        if not target then
+            for _, cid in ipairs(route.creators) do
+                if cid == game.CreatorId then
+                    target = { Name = route.name, File = route.file }
+                    break
+                end
+            end
+        end
+        if target then break end
+    end
+
+    if not target then
+        target = { Name = "Ecco Hub Universal", File = "universal.lua" }
+    end
+
     StatusLabel.Text = "LAUNCHING: " .. target.Name
 
     local payloadCode
@@ -505,11 +583,11 @@ task.spawn(function()
     if not payloadCode then
         payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/products/" .. target.File)
     end
-    -- Try root universal if universal
-    if not payloadCode and target.File == "universal.lua" then
-        payloadCode = fetchCode("http://127.0.0.1:8999/universal.lua")
+    -- Try root universal/single-file products if universal
+    if not payloadCode and (target.File == "universal.lua" or target.File == "mm2.lua" or target.File == "sell_lemons.lua" or target.File == "last_letter.lua") then
+        payloadCode = fetchCode("http://127.0.0.1:8999/" .. target.File)
         if not payloadCode then
-            payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/universal.lua")
+            payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/" .. target.File)
         end
     end
     -- Try games directory fallback
