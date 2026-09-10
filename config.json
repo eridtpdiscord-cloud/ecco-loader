@@ -1,0 +1,39 @@
+{
+    "status": "online",
+    "shutdown_message": "Ecco Hub V3 is currently offline for scheduled maintenance. Join discord.gg/hN9QpA3HA for updates.",
+    "key_system": {
+        "mode": "keyless",
+        "key_gate_url": "https://lootlink.org/s?ecco",
+        "valid_keys": [
+            "ECCO-V3-KEYLESS",
+            "VIP-PASS-2026"
+        ],
+        "allow_free_pass": true
+    },
+    "notifications": [
+        {
+            "id": "noti-1789010086",
+            "title": "TEST BROADCAST",
+            "content": "Ecco Hub V3 Sleek Loader and Cloud Control is LIVE!",
+            "date": "2026-09-09",
+            "badge": "UPDATE"
+        },
+        {
+            "id": "noti-001",
+            "title": "Welcome to Ecco Hub V3",
+            "content": "All 319 games updated with keyless mode! Join discord.gg/hN9QpA3HA for script updates.",
+            "date": "2026-09-09",
+            "badge": "NEW"
+        },
+        {
+            "id": "noti-002",
+            "title": "Dupe & Exploits Alert",
+            "content": "Dupes are announced in Discord first and never gatekept. Turn on pings in #announcements.",
+            "date": "2026-09-09",
+            "badge": "ANNOUNCEMENT"
+        }
+    ],
+    "version": "3.5.0",
+    "discord": "https://discord.gg/hN9QpA3HA",
+    "tiktok": "https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc"
+}
