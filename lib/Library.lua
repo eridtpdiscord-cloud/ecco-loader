@@ -12497,7 +12497,7 @@ function Library:CreateWindow(WindowInfo)
 
                 -- [[ DEDICATED NOTIFICATIONS / ANNOUNCEMENTS TAB ]]
                 local notifTab = Window:AddTab({
-                    Name = "Announcements",
+                    Name = "Notifications",
                     Icon = "bell",
                     Description = "Network Broadcasts & Live Updates",
                     Order = -9998
