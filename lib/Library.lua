@@ -1088,6 +1088,10 @@ local function RestoreDepbox(Box)
 end
 
 --// Pop Out
+function Library:MakeBoxPopOut(Box: any, Options: { [string]: any }?)
+    if not Box then return end
+end
+
 function SyncPopOutVisibility(Box: any)
     if not Box.PopOutFloat then
         return
