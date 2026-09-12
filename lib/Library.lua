@@ -13759,52 +13759,43 @@ function Library:CreateWindow(WindowInfo)
                 bgImage = getcustomasset("ecco_symbol.png")
             end
         end)
+        --// Ecco Background Watermark (Rendered inside MainFrame, zero lag) \--
+        local eccoAsset = ""
+        pcall(function()
+            if isfile and writefile and not isfile("ecco_symbol.png") then
+                pcall(function()
+                    local d = game:HttpGet("https://www.eccohub.xyz/ecco_symbol.png")
+                    if d and #d > 500 then writefile("ecco_symbol.png", d) end
+                end)
+            end
+            if getcustomasset and isfile and isfile("ecco_symbol.png") then
+                eccoAsset = getcustomasset("ecco_symbol.png")
+            end
+        end)
+        if eccoAsset == "" then
+            eccoAsset = "rbxassetid://88645182616510"
+        end
+
         local BackgroundIcon = Library:GetCustomIcon(WindowInfo.BackgroundImage)
-        HasBackgroundImage = BackgroundIcon ~= nil
+        local finalBg = (eccoAsset ~= "" and eccoAsset) or (BackgroundIcon and BackgroundIcon.Url) or "rbxassetid://88645182616510"
+
         BackgroundImage = New("ImageLabel", {
+            Name = "EccoWatermark",
             Active = false,
-            Position = UDim2.fromScale(0, 0),
-            Size = UDim2.fromScale(1, 1),
-            ScaleType = Enum.ScaleType.Stretch,
-            ZIndex = Overlay.ZIndex + 1,
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            Position = UDim2.fromScale(0.5, 0.5),
+            Size = UDim2.fromScale(0.55, 0.55),
+            ScaleType = Enum.ScaleType.Fit,
+            ZIndex = 1,
             BackgroundTransparency = 1,
-            ImageTransparency = 0.75,
-            Visible = false,
-            Parent = ScreenGui,
+            ImageTransparency = 0.88,
+            Image = finalBg,
+            Visible = true,
+            Parent = MainFrame,
         })
         if BackgroundIcon then
             Library:ApplyLucideIcon(BackgroundImage, BackgroundIcon)
         end
-
-        table.insert(
-            Library.Corners,
-            New("UICorner", {
-                CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
-                Parent = BackgroundImage,
-            })
-        )
-
-        Library:GiveSignal(RunService.RenderStepped:Connect(function()
-            if not (BackgroundImage and MainFrame) then
-                return
-            end
-
-            local ShouldShow = HasBackgroundImage and MainFrame.Visible
-            BackgroundImage.Visible = ShouldShow
-
-            if not ShouldShow then
-                return
-            end
-
-            BackgroundImage.Position = UDim2.fromOffset(
-                MainFrame.AbsolutePosition.X,
-                MainFrame.AbsolutePosition.Y
-            )
-            BackgroundImage.Size = UDim2.fromOffset(
-                MainFrame.AbsoluteSize.X,
-                MainFrame.AbsoluteSize.Y
-            )
-        end))
 
         if WindowInfo.Center then
             MainFrame.Position = UDim2.new(0.5, -MainFrame.Size.X.Offset / 2, 0.5, -MainFrame.Size.Y.Offset / 2)
@@ -13832,22 +13823,35 @@ function Library:CreateWindow(WindowInfo)
             Parent = TitleHolder,
         })
 
+        local eccoEmblem = ""
+        pcall(function()
+            if isfile and isfile("ecco_symbol.png") and getcustomasset then
+                eccoEmblem = getcustomasset("ecco_symbol.png")
+            end
+        end)
+        if eccoEmblem == "" then eccoEmblem = "rbxassetid://88645182616510" end
+
         if WindowInfo.Icon then
             local Icon = Library:GetCustomIcon(WindowInfo.Icon)
             WindowIcon = New("ImageLabel", {
                 Size = WindowInfo.IconSize,
+                BackgroundTransparency = 1,
+                ScaleType = Enum.ScaleType.Fit,
+                Image = (typeof(WindowInfo.Icon) == "number" and "rbxassetid://" .. WindowInfo.Icon)
+                    or (typeof(WindowInfo.Icon) == "string" and WindowInfo.Icon:find("rbxassetid") and WindowInfo.Icon)
+                    or eccoEmblem,
                 Parent = TitleHolder,
             })
             if Icon then
                 Library:ApplyLucideIcon(WindowIcon, Icon)
             end
         else
-            WindowIcon = New("TextLabel", {
+            WindowIcon = New("ImageLabel", {
+                Size = WindowInfo.IconSize or UDim2.fromOffset(20, 20),
                 BackgroundTransparency = 1,
-                Size = WindowInfo.IconSize,
-                Text = WindowInfo.Title:sub(1, 1),
-                TextScaled = true,
-                Visible = false,
+                ScaleType = Enum.ScaleType.Fit,
+                Image = eccoEmblem,
+                Visible = true,
                 Parent = TitleHolder,
             })
         end

@@ -1,6 +1,6 @@
 --[[
     ================================================================================
-    ECCO HUB V3 - STORAGE HUNTERS OPTIMIZED RUNTIME
+    ECCO HUB V3 - STORAGE HUNTERS SMOOTH PERFORMANCE RUNTIME
     ================================================================================
 --]]
 pcall(function()
@@ -25,14 +25,19 @@ pcall(function()
         terrain.WaterReflectance = 0
     end
     task.spawn(function()
-        for _, v in ipairs(workspace:GetDescendants()) do
-            if v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
-                v.Enabled = false
-            elseif v:IsA("BasePart") and not v:IsDescendantOf(game.Players.LocalPlayer.Character or workspace) then
-                v.CastShadow = false
-                if v.Material ~= Enum.Material.SmoothPlastic then
-                    v.Material = Enum.Material.SmoothPlastic
+        local descendants = workspace:GetDescendants()
+        local count = 0
+        for i = 1, #descendants do
+            local v = descendants[i]
+            if v and v.Parent then
+                if v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
+                    v.Enabled = false
                 end
+            end
+            count = count + 1
+            if count >= 300 then
+                count = 0
+                task.wait()
             end
         end
     end)
