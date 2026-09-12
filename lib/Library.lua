@@ -1259,7 +1259,29 @@ local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
     local ThemeProperties = Library.Registry[Instance] or {}
 
     for key, value in Table do
-        if key ~= "Text" then
+        if key == "Text" then
+            if typeof(value) == "table" then
+                local foundStr = nil
+                for _, item in ipairs(value) do
+                    if typeof(item) == "string" then
+                        foundStr = item
+                        break
+                    elseif typeof(item) == "table" and (item.Text or item.Title or item.Name) then
+                        foundStr = tostring(item.Text or item.Title or item.Name)
+                        break
+                    end
+                end
+                if not foundStr then
+                    foundStr = value.Text or value.Title or value.Name or ""
+                end
+                value = tostring(foundStr)
+            elseif typeof(value) == "function" then
+                local s, res = pcall(value)
+                value = s and tostring(res) or ""
+            elseif typeof(value) ~= "string" and typeof(value) ~= "number" then
+                value = tostring(value or "")
+            end
+        elseif key ~= "Text" then
             local SchemeValue = GetSchemeValue(value)
 
             if SchemeValue or typeof(value) == "function" then
@@ -1270,7 +1292,14 @@ local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
             end
         end
 
-        Instance[key] = value
+        local setSuccess = pcall(function()
+            Instance[key] = value
+        end)
+        if not setSuccess and key == "Text" then
+            pcall(function()
+                Instance.Text = tostring(value or "")
+            end)
+        end
     end
 
     if GetTableSize(ThemeProperties) > 0 then
@@ -9345,6 +9374,29 @@ end
 
 function Library:CreateWindow(WindowInfo)
     WindowInfo = Library:Validate(WindowInfo, Templates.Window)
+    -- Safe Title and Footer normalization
+    if typeof(WindowInfo.Title) == "table" then
+        local tStr = nil
+        for _, v in ipairs(WindowInfo.Title) do
+            if typeof(v) == "string" then tStr = v break end
+        end
+        WindowInfo.Title = tStr or WindowInfo.Title.Text or WindowInfo.Title.Title or tostring(WindowInfo.Title)
+    end
+    if typeof(WindowInfo.Title) ~= "string" then
+        WindowInfo.Title = tostring(WindowInfo.Title or "No Title")
+    end
+
+    if typeof(WindowInfo.Footer) == "table" then
+        local fStr = nil
+        for _, v in ipairs(WindowInfo.Footer) do
+            if typeof(v) == "string" then fStr = v break end
+        end
+        WindowInfo.Footer = fStr or WindowInfo.Footer.Text or WindowInfo.Footer.Title or tostring(WindowInfo.Footer)
+    end
+    if typeof(WindowInfo.Footer) ~= "string" then
+        WindowInfo.Footer = tostring(WindowInfo.Footer or "No Footer")
+    end
+
     local ViewportSize: Vector2 = workspace.CurrentCamera.ViewportSize
     if RunService:IsStudio() and ViewportSize.X <= 5 and ViewportSize.Y <= 5 then
         repeat
@@ -9952,8 +10004,15 @@ function Library:CreateWindow(WindowInfo)
         WindowInfo.Glow = State
     end
 
-    function Window:SetFooter(Footer: string)
-        assert(typeof(Footer) == "string", "Expected string for Footer got: " .. typeof(Footer))
+    function Window:SetFooter(Footer: any)
+        if typeof(Footer) == "table" then
+            local fStr = nil
+            for _, v in ipairs(Footer) do
+                if typeof(v) == "string" then fStr = v break end
+            end
+            Footer = fStr or Footer.Text or Footer.Title or tostring(Footer)
+        end
+        Footer = tostring(Footer or "")
 
         FooterLabel.Text = Footer
         WindowInfo.Footer = Footer
