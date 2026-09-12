@@ -461,8 +461,8 @@ function ThemeManager:SetDefaultTheme(Theme: any)
 	end
 
 	Library.Scheme = LibraryScheme
-	ThemeManager.BuiltInThemes["Midnight Black"] = { 0, { FontColor = "f5f5f5", MainColor = "0a0a0a", AccentColor = "7d55ff", BackgroundColor = "000000", OutlineColor = "181818", BackgroundImage = "ecco_symbol.png", BackgroundImageEnabled = true } },
-		["Default"] = { 1, FinalTheme }
+	ThemeManager.BuiltInThemes["Midnight Black"] = { 0, { FontColor = "f5f5f5", MainColor = "0a0a0a", AccentColor = "7d55ff", BackgroundColor = "000000", OutlineColor = "181818", BackgroundImage = "ecco_symbol.png", BackgroundImageEnabled = true } }
+	ThemeManager.BuiltInThemes["Default"] = { 1, FinalTheme }
 
 	Library:UpdateColorsUsingRegistry()
 end

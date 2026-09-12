@@ -9492,7 +9492,7 @@ function Library:CreateWindow(WindowInfo)
         local BackgroundIcon = Library:GetCustomIcon(WindowInfo.BackgroundImage)
         local finalImage = (bgImage ~= "" and bgImage) or (BackgroundIcon and BackgroundIcon.Url) or WindowInfo.BackgroundImage or ""
 
-        BackgroundImage = "ecco_symbol.png", {
+        BackgroundImage = New("ImageLabel", {
             Image = finalImage,
             ImageRectOffset = BackgroundIcon and BackgroundIcon.ImageRectOffset or Vector2.zero,
             ImageRectSize = BackgroundIcon and BackgroundIcon.ImageRectSize or Vector2.zero,
