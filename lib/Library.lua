@@ -12623,6 +12623,12 @@ function Library:SetBackgroundImage(Image: string | number)
     Library:UpdateColorsUsingRegistry()
 end
 
+function Library:SetBackgroundImageEnabled(Enabled: boolean)
+    if Library.Window and Library.Window.SetBackgroundImageEnabled then
+        Library.Window:SetBackgroundImageEnabled(Enabled)
+    end
+end
+
 function Library:UpdateNotificationPositions(Snap: boolean?)
     local IsLeft = Library.NotifySide:lower() == "left"
     local XScale = IsLeft and 0 or 1
@@ -13832,12 +13838,12 @@ function Library:CreateWindow(WindowInfo)
         if eccoEmblem == "" then eccoEmblem = "rbxassetid://88645182616510" end
 
         if WindowInfo.Icon then
-            local Icon = Library:GetCustomIcon(WindowInfo.Icon)
+            local Icon = (WindowInfo.Icon ~= "circle" and Library:GetCustomIcon(WindowInfo.Icon)) or nil
             WindowIcon = New("ImageLabel", {
-                Size = WindowInfo.IconSize,
+                Size = WindowInfo.IconSize or UDim2.fromOffset(20, 20),
                 BackgroundTransparency = 1,
                 ScaleType = Enum.ScaleType.Fit,
-                Image = (typeof(WindowInfo.Icon) == "number" and "rbxassetid://" .. WindowInfo.Icon)
+                Image = (Icon and "") or (typeof(WindowInfo.Icon) == "number" and "rbxassetid://" .. WindowInfo.Icon)
                     or (typeof(WindowInfo.Icon) == "string" and WindowInfo.Icon:find("rbxassetid") and WindowInfo.Icon)
                     or eccoEmblem,
                 Parent = TitleHolder,
@@ -14784,6 +14790,44 @@ function Library:CreateWindow(WindowInfo)
         })
 
         Library.WindowContainer = Container
+
+        --// Ecco Background Watermark (Placed directly in Container) \\--
+        local eccoAsset = ""
+        pcall(function()
+            if isfile and writefile and not isfile("ecco_symbol.png") then
+                pcall(function()
+                    local d = game:HttpGet("https://www.eccohub.xyz/ecco_symbol.png")
+                    if d and #d > 500 then writefile("ecco_symbol.png", d) end
+                end)
+            end
+            if getcustomasset and isfile and isfile("ecco_symbol.png") then
+                eccoAsset = getcustomasset("ecco_symbol.png")
+            end
+        end)
+        if eccoAsset == "" then
+            eccoAsset = "rbxassetid://88645182616510"
+        end
+
+        local BackgroundIcon = Library:GetCustomIcon(WindowInfo.BackgroundImage)
+        local finalBg = (eccoAsset ~= "" and eccoAsset) or (BackgroundIcon and BackgroundIcon.Url) or "rbxassetid://88645182616510"
+
+        BackgroundImage = New("ImageLabel", {
+            Name = "EccoWatermark",
+            Active = false,
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            Position = UDim2.fromScale(0.5, 0.5),
+            Size = UDim2.fromScale(0.65, 0.65),
+            ScaleType = Enum.ScaleType.Fit,
+            ZIndex = 10,
+            BackgroundTransparency = 1,
+            ImageTransparency = 0.88,
+            Image = finalBg,
+            Visible = true,
+            Parent = Container,
+        })
+        if BackgroundIcon then
+            Library:ApplyLucideIcon(BackgroundImage, BackgroundIcon)
+        end
     end
 
     --// Window Table \\--
@@ -14812,7 +14856,23 @@ function Library:CreateWindow(WindowInfo)
         if typeof(Image) == "string" then
             local BackgroundIcon = Library:GetCustomIcon(Image)
 
-            if BackgroundIcon then
+            if Image == "ecco_symbol.png" or Image == "ecco" or Image:find("ecco") or Image:match("^rbxassetid://") then
+                ValidIcon = true
+                local eccoAsset = ""
+                pcall(function()
+                    if isfile and isfile("ecco_symbol.png") then
+                        eccoAsset = (getcustomasset and getcustomasset("ecco_symbol.png")) or (getsynasset and getsynasset("ecco_symbol.png")) or ""
+                    end
+                end)
+                if eccoAsset == "" and Image:match("^rbxassetid://") then
+                    eccoAsset = Image
+                elseif eccoAsset == "" then
+                    eccoAsset = "rbxassetid://88645182616510"
+                end
+                BackgroundImage.Image = eccoAsset
+                BackgroundImage.ImageRectOffset = Vector2.zero
+                BackgroundImage.ImageRectSize = Vector2.zero
+            elseif BackgroundIcon then
                 ValidIcon = true
 
                 Library:ApplyLucideIcon(BackgroundImage, BackgroundIcon)
@@ -14860,6 +14920,12 @@ function Library:CreateWindow(WindowInfo)
 
         HasBackgroundImage = ValidIcon
         WindowInfo.BackgroundImage = Image
+    end
+
+    function Window:SetBackgroundImageEnabled(Enabled: boolean)
+        if BackgroundImage then
+            BackgroundImage.Visible = (Enabled ~= false)
+        end
     end
 
     --// Glow \\--

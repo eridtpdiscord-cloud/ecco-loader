@@ -398,7 +398,8 @@ function ThemeManager:GetDefaultTheme(): (string, boolean, string?)
 	end
 
 	if not isfile(DefaultThemePath) then
-		return "none", false, "Default theme is not set"
+		ThemeManager.DefaultThemeName = "Midnight Black"
+		return "Midnight Black", true
 	end
 
 	local SuccessRead, DefaultThemeName = pcall(readfile, DefaultThemePath)
