@@ -2513,37 +2513,31 @@ end
 --// Creator Functions \\--
 
 local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
-
     local ThemeProperties = Library.Registry[Instance] or {}
 
-
-
     for key, value in Table do
-
-        if key ~= "Text" then
-
-            local SchemeValue = GetSchemeValue(value)
-
-
-
-            if SchemeValue or typeof(value) == "function" then
-
-                ThemeProperties[key] = value
-
-                value = SchemeValue or value()
-
+        if key == "Text" and typeof(value) ~= "string" then
+            if typeof(value) == "table" then
+                value = value.Text or value[1] or ""
             else
-
-                ThemeProperties[key] = nil
-
+                value = tostring(value or "")
             end
-
         end
 
+        if key ~= "Text" then
+            local SchemeValue = GetSchemeValue(value)
 
+            if SchemeValue or typeof(value) == "function" then
+                ThemeProperties[key] = value
+                value = SchemeValue or value()
+            else
+                ThemeProperties[key] = nil
+            end
+        end
 
-        Instance[key] = value
-
+        pcall(function()
+            Instance[key] = value
+        end)
     end
 
 
