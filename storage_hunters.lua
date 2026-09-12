@@ -5,15 +5,18 @@
 --]]
 pcall(function()
     if setfpscap then setfpscap(144) end
-    local settings = settings()
-    if settings and settings.Rendering then
-        settings.Rendering.QualityLevel = 1
+    local s = settings()
+    if s and s.Rendering then
+        s.Rendering.QualityLevel = 1
     end
     local lighting = game:GetService("Lighting")
     if lighting then
         lighting.GlobalShadows = false
         lighting.FogEnd = 9e9
         lighting.Brightness = 2
+        for _, v in ipairs(lighting:GetChildren()) do
+            if v:IsA("PostEffect") then v.Enabled = false end
+        end
     end
     local terrain = workspace:FindFirstChildOfClass("Terrain")
     if terrain then
@@ -21,6 +24,18 @@ pcall(function()
         terrain.WaterWaveSpeed = 0
         terrain.WaterReflectance = 0
     end
+    task.spawn(function()
+        for _, v in ipairs(workspace:GetDescendants()) do
+            if v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
+                v.Enabled = false
+            elseif v:IsA("BasePart") and not v:IsDescendantOf(game.Players.LocalPlayer.Character or workspace) then
+                v.CastShadow = false
+                if v.Material ~= Enum.Material.SmoothPlastic then
+                    v.Material = Enum.Material.SmoothPlastic
+                end
+            end
+        end
+    end)
 end)
 
 -- ==============================================================================

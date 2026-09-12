@@ -9492,7 +9492,7 @@ function Library:CreateWindow(WindowInfo)
         local BackgroundIcon = Library:GetCustomIcon(WindowInfo.BackgroundImage)
         local finalImage = (bgImage ~= "" and bgImage) or (BackgroundIcon and BackgroundIcon.Url) or WindowInfo.BackgroundImage or ""
 
-        BackgroundImage = New("ImageLabel", {
+        BackgroundImage = "ecco_symbol.png", {
             Image = finalImage,
             ImageRectOffset = BackgroundIcon and BackgroundIcon.ImageRectOffset or Vector2.zero,
             ImageRectSize = BackgroundIcon and BackgroundIcon.ImageRectSize or Vector2.zero,
@@ -9858,6 +9858,37 @@ function Library:CreateWindow(WindowInfo)
 
     function Window:SetBackgroundImage(Image: string)
         local ValidIcon = false
+
+        if typeof(Image) == "string" and (Image:find("ecco_symbol") or Image == "ecco_symbol.png" or Image:find("rbxasset") or (isfile and isfile(Image))) then
+            ValidIcon = true
+            local assetId = ""
+            pcall(function()
+                if isfile and writefile and not isfile("ecco_symbol.png") then
+                    pcall(function()
+                        local d = game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/ecco_symbol.png")
+                        if d and #d > 500 then writefile("ecco_symbol.png", d) end
+                    end)
+                end
+                if getcustomasset and isfile and isfile("ecco_symbol.png") then
+                    assetId = getcustomasset("ecco_symbol.png")
+                end
+            end)
+            if assetId == "" then assetId = Image end
+            BackgroundImage.Image = assetId
+            BackgroundImage.ImageRectOffset = Vector2.zero
+            BackgroundImage.ImageRectSize = Vector2.zero
+            BackgroundImage.Position = UDim2.fromScale(0.5, 0.5)
+            BackgroundImage.AnchorPoint = Vector2.new(0.5, 0.5)
+            BackgroundImage.Size = UDim2.fromScale(0.6, 0.6)
+            BackgroundImage.ScaleType = Enum.ScaleType.Fit
+            BackgroundImage.BackgroundTransparency = 1
+            BackgroundImage.ImageTransparency = 0.85
+            BackgroundImage.ZIndex = 1
+            BackgroundImage.Visible = true
+            WindowInfo.BackgroundImage = Image
+            WindowInfo.BackgroundImageEnabled = true
+            return
+        end
 
         if typeof(Image) == "string" then
             local BackgroundIcon = Library:GetCustomIcon(Image)
