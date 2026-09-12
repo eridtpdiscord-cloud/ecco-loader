@@ -1868,7 +1868,7 @@ end
 local TransparencyCache = {}
 local ActiveTabTweens = setmetatable({}, { __mode = "k" })
 
-function Library:PlayTabAnimation(TabCanvas: CanvasGroup, Showing: boolean, OnComplete: (() -> ())?)
+function Library:PlayTabAnimation(TabCanvas: any, Showing: boolean, OnComplete: (() -> ())?)
     if not TabCanvas then
         if OnComplete then
             OnComplete()
@@ -1884,9 +1884,13 @@ function Library:PlayTabAnimation(TabCanvas: CanvasGroup, Showing: boolean, OnCo
     end
 
     local BaseZIndex = TabCanvas.ZIndex
+    local isCanvasGroup = pcall(function() return TabCanvas:IsA("CanvasGroup") and true end) and TabCanvas:IsA("CanvasGroup")
+
     if not (Library.Animations and Library.Animations.TabSwitch) then
         TabCanvas.Visible = Showing
-        TabCanvas.GroupTransparency = Showing and 0 or 1
+        if isCanvasGroup then
+            pcall(function() TabCanvas.GroupTransparency = Showing and 0 or 1 end)
+        end
         TabCanvas.Position = UDim2.fromScale(0, 0)
         TabCanvas.ZIndex = BaseZIndex
 
@@ -1914,14 +1918,18 @@ function Library:PlayTabAnimation(TabCanvas: CanvasGroup, Showing: boolean, OnCo
         end
 
         TabCanvas.ZIndex = BaseZIndex + 1
-        TabCanvas.GroupTransparency = 1
+        if isCanvasGroup then
+            pcall(function() TabCanvas.GroupTransparency = 1 end)
+        end
         TabCanvas.Position = StartPosition
         TabCanvas.Visible = true
 
-        local Tween = TweenService:Create(TabCanvas, TweenInfo, {
-            GroupTransparency = 0,
-            Position = UDim2.fromScale(0, 0)
-        })
+        local tweenGoals = { Position = UDim2.fromScale(0, 0) }
+        if isCanvasGroup then
+            tweenGoals.GroupTransparency = 0
+        end
+
+        local Tween = TweenService:Create(TabCanvas, TweenInfo, tweenGoals)
 
         ActiveTabTweens[TabCanvas] = Tween
         Tween:Play()
@@ -1945,7 +1953,9 @@ function Library:PlayTabAnimation(TabCanvas: CanvasGroup, Showing: boolean, OnCo
             end
         end)
     else
-        TabCanvas.GroupTransparency = 1
+        if isCanvasGroup then
+            pcall(function() TabCanvas.GroupTransparency = 1 end)
+        end
         TabCanvas.Visible = false
         TabCanvas.Position = UDim2.fromScale(0, 0)
         TabCanvas.ZIndex = BaseZIndex
@@ -10294,7 +10304,7 @@ function Library:CreateWindow(WindowInfo)
             })
 
             --// Tab Canvas \\--
-            TabCanvas = New("Frame", {
+            TabCanvas = New("CanvasGroup", {
                 BackgroundTransparency = 1,
                 ClipsDescendants = true,
                 GroupTransparency = 0,
@@ -11588,7 +11598,7 @@ function Library:CreateWindow(WindowInfo)
             })
 
             --// Tab Canvas \\--
-            TabCanvas = New("Frame", {
+            TabCanvas = New("CanvasGroup", {
                 BackgroundTransparency = 1,
                 ClipsDescendants = true,
                 GroupTransparency = 0,
