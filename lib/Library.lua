@@ -274,17 +274,17 @@ local Library = {
         BackgroundColor = Color3.fromRGB(0, 0, 0),
         MainColor = Color3.fromRGB(10, 10, 10),
         AccentColor = Color3.fromRGB(125, 85, 255),
-        OutlineColor = Color3.fromRGB(25, 25, 25),
-        FontColor = Color3.new(1, 1, 1),
+        OutlineColor = Color3.fromRGB(24, 24, 24),
+        FontColor = Color3.fromRGB(245, 245, 245),
         Font = Font.fromEnum(Enum.Font.Code),
 
         RedColor = Color3.fromRGB(255, 50, 50),
         DestructiveColor = Color3.fromRGB(220, 38, 38),
-        DarkColor = Color3.new(0, 0, 0),
+        DarkColor = Color3.fromRGB(0, 0, 0),
         WhiteColor = Color3.new(1, 1, 1),
 
         BackgroundImageEnabled = true,
-        BackgroundImage = getcustomasset and getcustomasset("ecco_symbol.png") or "",
+        BackgroundImage = "ecco_symbol.png",
         WindowGlow = true,
     },
 
@@ -409,7 +409,7 @@ local Templates = {
 
         --// Background \\--
         BackgroundImageEnabled = true,
-        BackgroundImage = getcustomasset and getcustomasset("ecco_symbol.png") or "",
+        BackgroundImage = "ecco_symbol.png",
 
         --// Animations \\--
         Animations = {
@@ -9477,18 +9477,33 @@ function Library:CreateWindow(WindowInfo)
             ZIndex = 2
         })
 
+                local bgImage = ""
+        pcall(function()
+            if isfile and writefile and not isfile("ecco_symbol.png") then
+                pcall(function()
+                    local d = game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/ecco_symbol.png")
+                    if d and #d > 500 then writefile("ecco_symbol.png", d) end
+                end)
+            end
+            if getcustomasset and isfile and isfile("ecco_symbol.png") then
+                bgImage = getcustomasset("ecco_symbol.png")
+            end
+        end)
         local BackgroundIcon = Library:GetCustomIcon(WindowInfo.BackgroundImage)
+        local finalImage = (bgImage ~= "" and bgImage) or (BackgroundIcon and BackgroundIcon.Url) or WindowInfo.BackgroundImage or ""
+
         BackgroundImage = New("ImageLabel", {
-            Image = BackgroundIcon and BackgroundIcon.Url or "",
+            Image = finalImage,
             ImageRectOffset = BackgroundIcon and BackgroundIcon.ImageRectOffset or Vector2.zero,
             ImageRectSize = BackgroundIcon and BackgroundIcon.ImageRectSize or Vector2.zero,
-            Position = UDim2.fromScale(0, 0),
-            Size = UDim2.fromScale(1, 1),
-            ScaleType = Enum.ScaleType.Stretch,
-            ZIndex = 999,
+            Position = UDim2.fromScale(0.5, 0.5),
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            Size = UDim2.fromScale(0.6, 0.6),
+            ScaleType = Enum.ScaleType.Fit,
+            ZIndex = 1,
             BackgroundTransparency = 1,
-            ImageTransparency = 0.75,
-            Visible = BackgroundIcon ~= nil,
+            ImageTransparency = 0.85,
+            Visible = (finalImage ~= ""),
             Parent = MainFrame,
         })
 
@@ -10189,7 +10204,7 @@ function Library:CreateWindow(WindowInfo)
             })
 
             --// Tab Canvas \\--
-            TabCanvas = New("CanvasGroup", {
+            TabCanvas = New("Frame", {
                 BackgroundTransparency = 1,
                 ClipsDescendants = true,
                 GroupTransparency = 0,
@@ -11483,7 +11498,7 @@ function Library:CreateWindow(WindowInfo)
             })
 
             --// Tab Canvas \\--
-            TabCanvas = New("CanvasGroup", {
+            TabCanvas = New("Frame", {
                 BackgroundTransparency = 1,
                 ClipsDescendants = true,
                 GroupTransparency = 0,

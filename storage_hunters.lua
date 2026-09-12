@@ -1,3 +1,28 @@
+--[[
+    ================================================================================
+    ECCO HUB V3 - STORAGE HUNTERS OPTIMIZED RUNTIME
+    ================================================================================
+--]]
+pcall(function()
+    if setfpscap then setfpscap(144) end
+    local settings = settings()
+    if settings and settings.Rendering then
+        settings.Rendering.QualityLevel = 1
+    end
+    local lighting = game:GetService("Lighting")
+    if lighting then
+        lighting.GlobalShadows = false
+        lighting.FogEnd = 9e9
+        lighting.Brightness = 2
+    end
+    local terrain = workspace:FindFirstChildOfClass("Terrain")
+    if terrain then
+        terrain.WaterWaveSize = 0
+        terrain.WaterWaveSpeed = 0
+        terrain.WaterReflectance = 0
+    end
+end)
+
 -- ==============================================================================
 -- ECCO HUB - STORAGE HUNTERS
 -- ==============================================================================
@@ -33356,7 +33381,7 @@ while true do
                 end
                 ))
                 end
-                , "shelves full", 1984, "ImageColor3", 527, "C4ItemId", "Stats To Favorite", 939., "claimed ", 16697569, 1662., 553, "Events: --", "Failed to fetch collection state", 3571, "AutoSell", 599, "nextTryAt", 1713., 3523, 2488, 3697, "Claimed", 2348, 3091, 2016., "FolderName", "overweight", "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/deploy_eccohub/public/lib/", 0.15, "BillboardGui", "MouseButton1", "jhp", "Toggled", "zknxksxkjsw", "CarryableEsp", 3686, 3516329988., 2068, "Out", 2091., 6068247., "aetetfeglq", function() local bXp, bXq = nil, nil;
+                , "shelves full", 1984, "ImageColor3", 527, "C4ItemId", "Stats To Favorite", 939., "claimed ", 16697569, 1662., 553, "Events: --", "Failed to fetch collection state", 3571, "AutoSell", 599, "nextTryAt", 1713., 3523, 2488, 3697, "Claimed", 2348, 3091, 2016., "FolderName", "overweight", "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/", 0.15, "BillboardGui", "MouseButton1", "jhp", "Toggled", "zknxksxkjsw", "CarryableEsp", 3686, 3516329988., 2068, "Out", 2091., 6068247., "aetetfeglq", function() local bXp, bXq = nil, nil;
                 local bXr = nil;
                 bXr = 0.;
                 while true do
