@@ -271,10 +271,10 @@ local Library = {
     --// Scheme \\--
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(15, 15, 15),
-        MainColor = Color3.fromRGB(25, 25, 25),
+        BackgroundColor = Color3.fromRGB(0, 0, 0),
+        MainColor = Color3.fromRGB(10, 10, 10),
         AccentColor = Color3.fromRGB(125, 85, 255),
-        OutlineColor = Color3.fromRGB(40, 40, 40),
+        OutlineColor = Color3.fromRGB(25, 25, 25),
         FontColor = Color3.new(1, 1, 1),
         Font = Font.fromEnum(Enum.Font.Code),
 
@@ -283,8 +283,8 @@ local Library = {
         DarkColor = Color3.new(0, 0, 0),
         WhiteColor = Color3.new(1, 1, 1),
 
-        BackgroundImageEnabled = false,
-        BackgroundImage = "",
+        BackgroundImageEnabled = true,
+        BackgroundImage = getcustomasset and getcustomasset("ecco_symbol.png") or "",
         WindowGlow = true,
     },
 
@@ -408,8 +408,8 @@ local Templates = {
         CompactWidthActivation = 128,
 
         --// Background \\--
-        BackgroundImageEnabled = false,
-        BackgroundImage = "",
+        BackgroundImageEnabled = true,
+        BackgroundImage = getcustomasset and getcustomasset("ecco_symbol.png") or "",
 
         --// Animations \\--
         Animations = {

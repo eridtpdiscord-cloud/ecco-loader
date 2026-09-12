@@ -1,108 +1,3 @@
---[[
-    ================================================================================
-    ECCO HUB V3 — OFFICIAL PRODUCT SUITE
-    ================================================================================
-    Discord  : https://discord.gg/hN9QpA3HA
-    TikTok   : https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc
-    Website  : https://eccohub.xyz
-    Branding : Ecco Symbol Emblem (ecco_symbol.png)
-    ================================================================================
---]]
-task.spawn(function()
-    local gethui = gethui or function() return game:GetService("CoreGui") end
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer or Players.PlayerAdded:Wait()
-    local TweenService = game:GetService("TweenService")
-    local cb = setclipboard or toclipboard or (Clipboard and Clipboard.set)
-
-    -- 1. Ensure ecco_symbol.png is cached locally
-    pcall(function()
-        if isfile and not isfile("ecco_symbol.png") then
-            pcall(function()
-                local s = game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/ecco_symbol.png")
-                if s and #s > 1000 then writefile("ecco_symbol.png", s) end
-            end)
-            if not isfile("ecco_symbol.png") then
-                pcall(function()
-                    local s = game:HttpGet("http://127.0.0.1:8999/ecco_symbol.png")
-                    if s and #s > 1000 then writefile("ecco_symbol.png", s) end
-                end)
-            end
-            if not isfile("ecco_symbol.png") then
-                pcall(function()
-                    local s = game:HttpGet("https://eccohub.xyz/ecco_symbol.png")
-                    if s and #s > 1000 then writefile("ecco_symbol.png", s) end
-                end)
-            end
-        end
-    end)
-
-    local symbolAsset = getcustomasset and isfile and isfile("ecco_symbol.png") and getcustomasset("ecco_symbol.png")
-
-    -- 2. Continuously brand any UI created by this script
-    for loopIdx = 1, 150 do
-        task.wait(0.25)
-        local allGuis = {}
-        for _, c in ipairs(gethui():GetChildren()) do
-            if c:IsA("ScreenGui") and c.Name ~= "EccoLoaderModal" then
-                table.insert(allGuis, c)
-            end
-        end
-        if LocalPlayer:FindFirstChild("PlayerGui") then
-            for _, c in ipairs(LocalPlayer.PlayerGui:GetChildren()) do
-                if c:IsA("ScreenGui") and c.Name ~= "EccoLoaderModal" then
-                    table.insert(allGuis, c)
-                end
-            end
-        end
-
-        for _, gui in ipairs(allGuis) do
-            -- Enforce symbol emblem on window icons & toggle buttons
-            if symbolAsset then
-                for _, desc in ipairs(gui:GetDescendants()) do
-                    if desc:IsA("ImageLabel") and (desc.Image:find("78539693571783") or desc.Image:find("91400086538074") or desc.Name:find("Icon") or desc.Name == "EccoSymbol") then
-                        if desc.Image ~= symbolAsset and desc.Size.Y.Offset >= 18 and desc.Size.Y.Offset <= 48 then
-                            desc.Image = symbolAsset
-                            desc.ImageRectSize = Vector2.zero
-                            desc.ImageRectOffset = Vector2.zero
-                        end
-                    elseif desc:IsA("ImageButton") and (gui.Name:find("Toggle") or desc.Name:find("Toggle")) then
-                        if desc.Image ~= symbolAsset then
-                            desc.Image = symbolAsset
-                            desc.ImageRectSize = Vector2.zero
-                            desc.ImageRectOffset = Vector2.zero
-                        end
-                    end
-                end
-            end
-
-            -- Rebrand titles to Ecco Hub V3
-            for _, desc in ipairs(gui:GetDescendants()) do
-                if desc:IsA("TextLabel") then
-                    if desc.Text:find("By Ouroboros Hub") or desc.Text:find("Ouroboros") then
-                        desc.Text = "  •  Ecco Hub V3"
-                        desc.TextColor3 = Color3.fromRGB(0, 200, 255)
-                    end
-                elseif desc:IsA("TextButton") then
-                    if desc.Text:find("discord.gg/ecc00") or desc.Text:find("discord.gg/ouroboros") then
-                        desc.Text = desc.Text:gsub("discord.gg/%w+", "discord.gg/hN9QpA3HA")
-                    elseif desc.Text == "Website" or desc.Text == "Rscripts" then
-                        desc.Text = "TikTok (@_ecc00_)"
-                        desc.MouseButton1Click:Connect(function()
-                            if cb then cb("https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc") end
-                        end)
-                    elseif desc.Text == "Discord" then
-                        desc.MouseButton1Click:Connect(function()
-                            if cb then cb("https://discord.gg/hN9QpA3HA") end
-                        end)
-                    end
-                end
-            end
-        end
-    end
-end)
-
---[[ ECCO HUB V3 | discord.gg/hN9QpA3HA | https://eccohub.xyz ]]
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
@@ -140,35 +35,9 @@ local function fetch(url)
     return httpGet(game, url)
 end
 
-local function safeLoad(urls)
-    for _, u in ipairs(urls) do
-        local ok, content = pcall(function() return httpGet(game, u) end)
-        if ok and typeof(content) == "string" and #content > 100 and not content:find("404: Not Found") then
-            local fn, err = loadstring(content)
-            if fn then
-                local execOk, res = pcall(fn)
-                if execOk and res then return res end
-            end
-        end
-    end
-    error("Failed to load dependency from all sources")
-end
-
-local Library = safeLoad({
-    "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/Fluent.luau",
-    "http://127.0.0.1:8999/lib/Fluent.luau",
-    "https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"
-})
-local SaveManager = safeLoad({
-    "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/SaveManager.luau",
-    "http://127.0.0.1:8999/lib/SaveManager.luau",
-    "https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"
-})
-local InterfaceManager = safeLoad({
-    "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/InterfaceManager.luau",
-    "http://127.0.0.1:8999/lib/InterfaceManager.luau",
-    "https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"
-})
+local Library = loadstring(fetch("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
+local SaveManager = loadstring(fetch("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
+local InterfaceManager = loadstring(fetch("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
 
 local GameStateRemotes = ReplicatedStorage:FindFirstChild("GameStateRemotes")
 local WaveRemotes = ReplicatedStorage:FindFirstChild("WaveRemotes")
@@ -477,8 +346,8 @@ task.spawn(function()
 end)
 
 local Window = Library:CreateWindow{
-    Title = "Survive Zombie Arena  \u{2022}  Ecco Hub V3",
-    SubTitle = "by Ecco Hub",
+    Title = `Arena Auto Farm {Library.Version}`,
+    SubTitle = "Fluent Renewed",
     TabWidth = 160,
     Size = UDim2.fromOffset(560, 460),
     Resize = true,
@@ -489,66 +358,19 @@ local Window = Library:CreateWindow{
 }
 
 local Tabs = {
-    Info = Window:CreateTab{ Title = "Info", Icon = "info" },
     Main = Window:CreateTab{ Title = "Main", Icon = "swords" },
     Gears = Window:CreateTab{ Title = "Gears", Icon = "package" },
     Settings = Window:CreateTab{ Title = "Settings", Icon = "settings" }
 }
 
--- Populate Info tab as top tab
-local placeName = "Survive Zombie Arena"
-pcall(function()
-    placeName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-end)
-
-Tabs.Info:AddParagraph("EccoInfoGame", {
-    Title = "Game Information",
-    Content = string.format("Game: %s\nPlace ID: %s\nJob ID: %s", placeName, tostring(game.PlaceId), tostring(game.JobId))
-})
-
-local lp = Players.LocalPlayer
-Tabs.Info:AddParagraph("EccoInfoProfile", {
-    Title = "Account Profile",
-    Content = string.format("Username: %s\nDisplay Name: %s\nUser ID: %s\nAccount Age: %d days", 
-        lp.Name, lp.DisplayName, tostring(lp.UserId), lp.AccountAge)
-})
-
-Tabs.Info:AddButton({
-    Title = "Copy Discord Invite",
-    Description = "https://discord.gg/hN9QpA3HA",
-    Callback = function()
-        local cb = setclipboard or toclipboard or (Clipboard and Clipboard.set)
-        if cb then cb("https://discord.gg/hN9QpA3HA") end
-        Library:Notify{
-            Title = "Ecco Hub V3",
-            Content = "Copied Discord invite to clipboard!",
-            Duration = 3
-        }
-    end
-})
-
-Tabs.Info:AddButton({
-    Title = "Copy TikTok Profile",
-    Description = "https://www.tiktok.com/@_ecc00_",
-    Callback = function()
-        local cb = setclipboard or toclipboard or (Clipboard and Clipboard.set)
-        if cb then cb("https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc") end
-        Library:Notify{
-            Title = "Ecco Hub V3",
-            Content = "Copied TikTok link to clipboard!",
-            Duration = 3
-        }
-    end
-})
-
 local Options = Library.Options
 
-local DISCORD_INVITE = "https://discord.gg/hN9QpA3HA"
+local DISCORD_INVITE = "https://discord.gg/f3dJhDgyTq"
 local copyToClipboard = setclipboard or toclipboard or set_clipboard or (writeclipboard)
 
 local function addDiscordButton(tab)
     tab:CreateButton{
-        Title = "Join Official Ecco Hub Discord",
+        Title = "Join Discord for Dupes / Keyless Scripts",
         Description = "Click to copy the invite link to your clipboard",
         Callback = function()
             local ok = false
@@ -699,7 +521,7 @@ if Options.AutoHideUI.Value then
 end
 
 Library:Notify{
-    Title = "Ecco Hub V3",
-    Content = "Survive Zombie Arena loaded successfully.",
+    Title = "Arena Auto Farm",
+    Content = "Loaded successfully.",
     Duration = 5
 }
