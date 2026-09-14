@@ -86,11 +86,22 @@ task.spawn(function()
                 elseif desc:IsA("TextButton") then
                     if desc.Text:find("discord.gg/ecc00") or desc.Text:find("discord.gg/ouroboros") then
                         desc.Text = desc.Text:gsub("discord.gg/%w+", "discord.gg/hN9QpA3HA")
-                    elseif desc.Text == "Website" or desc.Text == "Rscripts" then
+                    elseif desc.Text == "Website" or desc.Text:find("Website") then
+                        desc.Text = "Website"
+                        if not desc:GetAttribute("EccoSocialBound") then
+                            desc:SetAttribute("EccoSocialBound", true)
+                            desc.MouseButton1Click:Connect(function()
+                                if cb then cb("https://eccohub.xyz") end
+                            end)
+                        end
+                    elseif desc.Text == "Rscripts" or desc.Text == "TikTok" or desc.Text == "TikTok (@_ecc00_)" then
                         desc.Text = "TikTok (@_ecc00_)"
-                        desc.MouseButton1Click:Connect(function()
-                            if cb then cb("https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc") end
-                        end)
+                        if not desc:GetAttribute("EccoSocialBound") then
+                            desc:SetAttribute("EccoSocialBound", true)
+                            desc.MouseButton1Click:Connect(function()
+                                if cb then cb("https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc") end
+                            end)
+                        end
                     elseif desc.Text == "Discord" then
                         desc.MouseButton1Click:Connect(function()
                             if cb then cb("https://discord.gg/hN9QpA3HA") end

@@ -624,57 +624,67 @@ task.spawn(function()
     task.wait(0.38)
     ScreenGui:Destroy()
 
-    -- Spawn Universal Background Brand & Socials Enforcement Engine
+    -- Spawn Universal Background Brand & Socials Enforcement Engine (Optimized & Zero Lag)
     task.spawn(function()
         local cb = setclipboard or toclipboard or (Clipboard and Clipboard.set)
-        for loopCount = 1, 100 do
-            task.wait(0.5)
-            local symbolAsset = getcustomasset and isfile and isfile("ecco_symbol.png") and getcustomasset("ecco_symbol.png")
+        local symbolAsset = getcustomasset and isfile and isfile("ecco_symbol.png") and getcustomasset("ecco_symbol.png")
+
+        local function isHubGui(gui)
+            if not gui or not gui:IsA("ScreenGui") or gui.Name == "EccoLoaderModal" then return false end
+            local name = gui.Name:lower()
+            return name:find("ecco") or name:find("obsidian") or name:find("linoria") or name == "screengui"
+        end
+
+        for loopCount = 1, 15 do
+            task.wait(1)
             local targetGuis = {}
-            for _, g in ipairs(gethui():GetChildren()) do
-                if g:IsA("ScreenGui") and g.Name ~= "EccoLoaderModal" then
-                    table.insert(targetGuis, g)
+            if gethui then
+                for _, g in ipairs(gethui():GetChildren()) do
+                    if isHubGui(g) then table.insert(targetGuis, g) end
                 end
             end
             if LocalPlayer and LocalPlayer:FindFirstChild("PlayerGui") then
                 for _, g in ipairs(LocalPlayer.PlayerGui:GetChildren()) do
-                    if g:IsA("ScreenGui") and g.Name ~= "EccoLoaderModal" then
-                        table.insert(targetGuis, g)
-                    end
+                    if isHubGui(g) then table.insert(targetGuis, g) end
+                end
+            end
+            if CoreGui then
+                for _, g in ipairs(CoreGui:GetChildren()) do
+                    if isHubGui(g) then table.insert(targetGuis, g) end
                 end
             end
 
             for _, g in ipairs(targetGuis) do
-                -- Enforce symbol emblem on all window icons & toggle buttons
-                if symbolAsset then
-                    for _, d in ipairs(g:GetDescendants()) do
-                        if d:IsA("ImageLabel") and (d.Image:find("78539693571783") or d.Image:find("91400086538074") or d.Name:find("Icon") or d.Name == "EccoSymbol") then
-                            if d.Image ~= symbolAsset and d.Size.Y.Offset >= 18 and d.Size.Y.Offset <= 48 then
-                                d.Image = symbolAsset
-                                d.ImageRectSize = Vector2.zero
-                                d.ImageRectOffset = Vector2.zero
-                            end
-                        elseif d:IsA("ImageButton") and (g.Name:find("Toggle") or d.Name:find("Toggle")) then
-                            if d.Image ~= symbolAsset then
-                                d.Image = symbolAsset
-                                d.ImageRectSize = Vector2.zero
-                                d.ImageRectOffset = Vector2.zero
-                            end
-                        end
-                    end
-                end
-
-                -- Enforce official Ecco Hub Discord and TikTok socials
                 for _, d in ipairs(g:GetDescendants()) do
-                    if d:IsA("TextButton") then
+                    if symbolAsset and d:IsA("ImageLabel") and (d.Image:find("78539693571783") or d.Image:find("91400086538074") or d.Name:find("Icon") or d.Name == "EccoSymbol") then
+                        if d.Image ~= symbolAsset and d.Size.Y.Offset >= 18 and d.Size.Y.Offset <= 48 then
+                            d.Image = symbolAsset
+                            d.ImageRectSize = Vector2.zero
+                            d.ImageRectOffset = Vector2.zero
+                        end
+                    elseif symbolAsset and d:IsA("ImageButton") and (g.Name:find("Toggle") or d.Name:find("Toggle")) then
+                        if d.Image ~= symbolAsset then
+                            d.Image = symbolAsset
+                            d.ImageRectSize = Vector2.zero
+                            d.ImageRectOffset = Vector2.zero
+                        end
+                    elseif d:IsA("TextButton") and not d:GetAttribute("EccoSocialBound") then
                         if d.Text:find("discord.gg/ecc00") or d.Text:find("discord.gg/ouroboros") then
                             d.Text = d.Text:gsub("discord.gg/%w+", "discord.gg/hN9QpA3HA")
-                        elseif d.Text == "Website" or d.Text == "Rscripts" then
+                        elseif d.Text == "Website" or d.Text:find("Website") then
+                            d.Text = "Website"
+                            d:SetAttribute("EccoSocialBound", true)
+                            d.MouseButton1Click:Connect(function()
+                                if cb then cb("https://eccohub.xyz") end
+                            end)
+                        elseif d.Text == "Rscripts" or d.Text == "TikTok" or d.Text == "TikTok (@_ecc00_)" then
                             d.Text = "TikTok (@_ecc00_)"
+                            d:SetAttribute("EccoSocialBound", true)
                             d.MouseButton1Click:Connect(function()
                                 if cb then cb("https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc") end
                             end)
                         elseif d.Text == "Discord" then
+                            d:SetAttribute("EccoSocialBound", true)
                             d.MouseButton1Click:Connect(function()
                                 if cb then cb("https://discord.gg/hN9QpA3HA") end
                             end)
