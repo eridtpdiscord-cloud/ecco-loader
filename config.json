@@ -12,6 +12,13 @@
     },
     "notifications": [
         {
+            "id": "noti-1789515441",
+            "title": "Grid Movement Notification Dropdown",
+            "content": "Live broadcast dropdown added right above the overlay grid container.",
+            "date": "2026-09-15",
+            "badge": "NEW"
+        },
+        {
             "id": "noti-1789010086",
             "title": "TEST BROADCAST",
             "content": "Ecco Hub V3 Sleek Loader and Cloud Control is LIVE!",
