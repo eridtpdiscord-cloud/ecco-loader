@@ -1,3 +1,16 @@
+-- ==============================================================================
+-- ECCO HUB V3 SECURITY & ANTI-HOOKING HARDENING BASELINE
+-- ==============================================================================
+local _raw_pcall, _raw_ypcall = pcall, ypcall
+local _raw_type, _raw_typeof = type, typeof
+local _raw_tostring, _raw_tonumber = tostring, tonumber
+local _raw_getmetatable, _raw_setmetatable = getmetatable, setmetatable
+local _raw_rawget, _raw_rawset, _raw_rawlen = rawget, rawset, rawlen
+local _raw_task_spawn, _raw_task_wait, _raw_task_delay = task.spawn, task.wait, task.delay
+local _raw_coro_create, _raw_coro_resume = coroutine.create, coroutine.resume
+local _raw_str_format, _raw_str_sub, _raw_str_find = string.format, string.sub, string.find
+local _raw_tbl_insert, _raw_tbl_remove, _raw_tbl_clear = table.insert, table.remove, table.clear
+
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -297,22 +310,22 @@ local Library = {
     OriginalMinSize = Vector2.new(480, 360),
     MinSize = Vector2.new(480, 360),
     DPIScale = 1,
-    CornerRadius = 4,
+    CornerRadius = 8,
 
     --// Scheme \\--
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(0, 0, 0),
-        MainColor = Color3.fromRGB(10, 10, 10),
-        AccentColor = Color3.fromRGB(125, 85, 255),
-        OutlineColor = Color3.fromRGB(24, 24, 24),
-        FontColor = Color3.fromRGB(245, 245, 245),
+        BackgroundColor = Color3.fromRGB(12, 14, 20),
+        MainColor = Color3.fromRGB(18, 22, 32),
+        AccentColor = Color3.fromRGB(0, 220, 255),
+        OutlineColor = Color3.fromRGB(30, 38, 55),
+        FontColor = Color3.fromRGB(245, 248, 255),
         Font = Font.fromEnum(Enum.Font.Code),
 
-        RedColor = Color3.fromRGB(255, 50, 50),
-        BlueColor = Color3.fromRGB(80, 155, 255),
+        RedColor = Color3.fromRGB(255, 60, 60),
+        BlueColor = Color3.fromRGB(0, 200, 255),
         DestructiveColor = Color3.fromRGB(220, 38, 38),
-        DarkColor = Color3.new(0, 0, 0),
+        DarkColor = Color3.fromRGB(8, 10, 15),
         WhiteColor = Color3.new(1, 1, 1),
 
         BackgroundImage = ""
@@ -7490,20 +7503,21 @@ do
             Parent = Button,
         })
         table.insert(
-            Library.Corners,
+            Library.PillCorners,
             New("UICorner", {
-                CornerRadius = UDim.new(0, Library.CornerRadius / 2),
+                CornerRadius = UDim.new(1, 0),
                 Parent = Checkbox,
             })
         )
 
         local CheckboxStroke = New("UIStroke", {
             Color = "OutlineColor",
+            Thickness = 1.2,
             Parent = Checkbox,
         })
 
         local CheckImage = New("ImageLabel", {
-            ImageColor3 = "FontColor",
+            ImageColor3 = "DarkColor",
             ImageTransparency = 1,
             Position = UDim2.fromOffset(2, 2),
             Size = UDim2.new(1, -4, 1, -4),
@@ -7541,8 +7555,12 @@ do
                 ImageTransparency = Toggle.Value and 0 or 1,
             }):Play()
 
-            Checkbox.BackgroundColor3 = Library.Scheme.MainColor
-            Library.Registry[Checkbox].BackgroundColor3 = "MainColor"
+            local targetColor = Toggle.Value and Library.Scheme.AccentColor or Library.Scheme.MainColor
+            TweenService:Create(Checkbox, Library.TweenInfo, {
+                BackgroundColor3 = targetColor
+            }):Play()
+            Checkbox.BackgroundColor3 = targetColor
+            Library.Registry[Checkbox].BackgroundColor3 = Toggle.Value and "AccentColor" or "MainColor"
         end
 
         function Toggle:OnChanged(Func)
@@ -8335,8 +8353,17 @@ do
             Parent = Holder,
         })
 
+        table.insert(
+            Library.PillCorners,
+            New("UICorner", {
+                CornerRadius = UDim.new(1, 0),
+                Parent = Bar,
+            })
+        )
+
         New("UIStroke", {
             Color = "OutlineColor",
+            Thickness = 1,
             Parent = Bar,
         })
 
@@ -8399,6 +8426,13 @@ do
             ZIndex = Bar.ZIndex + 1,
             Parent = Bar,
         })
+        table.insert(
+            Library.PillCorners,
+            New("UICorner", {
+                CornerRadius = UDim.new(1, 0),
+                Parent = Fill,
+            })
+        )
 
         --// Ball riding the fill edge. Not shown in compact, which has no room.
         local Ball
@@ -8418,7 +8452,7 @@ do
             table.insert(
                 Library.PillCorners,
                 New("UICorner", {
-                    CornerRadius = Library.CornerRadius > 0 and UDim.new(1, 0) or UDim.new(0, 0),
+                    CornerRadius = UDim.new(1, 0),
                     Parent = InnerOutline,
                 })
             )
@@ -8440,7 +8474,7 @@ do
             table.insert(
                 Library.PillCorners,
                 New("UICorner", {
-                    CornerRadius = Library.CornerRadius > 0 and UDim.new(1, 0) or UDim.new(0, 0),
+                    CornerRadius = UDim.new(1, 0),
                     Parent = BallShadow,
                 })
             )
@@ -8456,10 +8490,15 @@ do
             table.insert(
                 Library.PillCorners,
                 New("UICorner", {
-                    CornerRadius = Library.CornerRadius > 0 and UDim.new(1, 0) or UDim.new(0, 0),
+                    CornerRadius = UDim.new(1, 0),
                     Parent = Ball,
                 })
             )
+            New("UIStroke", {
+                Color = "AccentColor",
+                Thickness = 1.5,
+                Parent = Ball,
+            })
             New("UIStroke", {
                 Color = "DarkColor",
                 Transparency = 0.75,
@@ -13475,6 +13514,34 @@ local function PickVisibleButton(Main, Mini)
     return Main
 end
 
+Library.CloudNotifications = {}
+
+function Library:FetchCloudNotifications()
+    task.spawn(function()
+        local ok, raw = pcall(function()
+            return game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/deploy_eccohub/public/api/v3/config.json", true)
+        end)
+        if ok and raw then
+            local s, parsed = pcall(function() return game:GetService("HttpService"):JSONDecode(raw) end)
+            if s and parsed and parsed.notifications then
+                Library.CloudNotifications = parsed.notifications
+                local unreadCount = #parsed.notifications
+                if Library.NotificationBadges then
+                    for _, badge in ipairs(Library.NotificationBadges) do
+                        if badge.Holder and badge.Label then
+                            badge.Label.Text = tostring(unreadCount)
+                            badge.Holder.Visible = unreadCount > 0
+                        end
+                    end
+                end
+                if Library.NotificationHistoryOpen then
+                    Library:RefreshNotificationHistory()
+                end
+            end
+        end
+    end)
+end
+
 local function GetNotifyHistoryDefaultPos()
     return GetDropPanelPos(PickVisibleButton(Library.NotificationBell, Library.NotificationBellMini), NOTIFY_HISTORY_SIZE)
 end
@@ -13512,14 +13579,15 @@ function Library:_BuildNotificationHistory()
     local TitleLabel = New("TextLabel", {
         BackgroundTransparency = 1,
         Size = UDim2.new(1, 0, 0, 34),
-        Text = "Notification History",
-        TextSize = 15,
+        Text = "📢 ECCO NOTIFICATIONS & BROADCASTS",
+        TextColor3 = "AccentColor",
+        TextSize = 13,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = Holder,
     })
     New("UIPadding", {
         PaddingLeft = UDim.new(0, 12),
-        PaddingRight = UDim.new(0, 36),
+        PaddingRight = UDim.new(0, 60),
         Parent = TitleLabel,
     })
 
@@ -13527,6 +13595,26 @@ function Library:_BuildNotificationHistory()
         Position = UDim2.fromOffset(0, 34),
         Size = UDim2.new(1, 0, 0, 1),
     })
+
+    --// Refresh Button
+    local RefreshButton = New("TextButton", {
+        AnchorPoint = Vector2.new(1, 0.5),
+        BackgroundTransparency = 1,
+        Position = UDim2.new(1, -32, 0, 17),
+        Size = UDim2.fromOffset(20, 20),
+        Text = "🔄",
+        TextColor3 = "AccentColor",
+        TextSize = 13,
+        ZIndex = 11,
+        Parent = Holder,
+    })
+    RefreshButton.MouseButton1Click:Connect(function()
+        RefreshButton.Text = "⏳"
+        Library:FetchCloudNotifications()
+        task.delay(1, function()
+            RefreshButton.Text = "🔄"
+        end)
+    end)
 
     --// Close (X) button in the title bar
     local CloseIcon = Library:GetIcon("x")
@@ -13641,7 +13729,10 @@ function Library:RefreshNotificationHistory()
         end
     end
 
-    if #Library.NotificationHistory == 0 then
+    local hasCloud = Library.CloudNotifications and #Library.CloudNotifications > 0
+    local hasLocal = #Library.NotificationHistory > 0
+
+    if not hasCloud and not hasLocal then
         New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 0, 24),
@@ -13653,6 +13744,74 @@ function Library:RefreshNotificationHistory()
             Parent = Scroller,
         })
         return
+    end
+
+    if hasCloud then
+        for _, cNotif in ipairs(Library.CloudNotifications) do
+            local badge = cNotif.badge or "UPDATE"
+            local badgeColor = Library.Scheme.AccentColor
+            if badge == "ALERT" or badge == "HOTFIX" then
+                badgeColor = Color3.fromRGB(255, 70, 70)
+            elseif badge == "NEW" or badge == "RELEASE" then
+                badgeColor = Color3.fromRGB(50, 255, 150)
+            elseif badge == "ANNOUNCEMENT" then
+                badgeColor = Color3.fromRGB(255, 200, 50)
+            end
+
+            local cCard = New("Frame", {
+                AutomaticSize = Enum.AutomaticSize.Y,
+                BackgroundColor3 = "MainColor",
+                Size = UDim2.new(1, 0, 0, 0),
+                Parent = Scroller,
+            })
+            New("UICorner", { CornerRadius = UDim.new(0, Library.CornerRadius), Parent = cCard })
+            New("UIStroke", { Color = badgeColor, Thickness = 1, Transparency = 0.35, Parent = cCard })
+
+            local cContent = New("Frame", {
+                AutomaticSize = Enum.AutomaticSize.Y,
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, 0, 0, 0),
+                Parent = cCard,
+            })
+            New("UIListLayout", { Padding = UDim.new(0, 3), Parent = cContent })
+            New("UIPadding", { PaddingBottom = UDim.new(0, 6), PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8), PaddingTop = UDim.new(0, 6), Parent = cContent })
+
+            local topRow = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 18), Parent = cContent })
+            local bLabel = New("TextLabel", {
+                BackgroundColor3 = badgeColor,
+                BackgroundTransparency = 0.8,
+                Size = UDim2.fromOffset(56, 16),
+                Text = "[" .. badge .. "]",
+                TextColor3 = badgeColor,
+                TextSize = 10,
+                Parent = topRow,
+            })
+            New("UICorner", { CornerRadius = UDim.new(0, 4), Parent = bLabel })
+
+            New("TextLabel", {
+                BackgroundTransparency = 1,
+                Position = UDim2.fromOffset(62, 0),
+                Size = UDim2.new(1, -62, 1, 0),
+                Text = tostring(cNotif.title or "Broadcast"),
+                TextColor3 = "FontColor",
+                TextSize = 13,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Parent = topRow,
+            })
+
+            New("TextLabel", {
+                AutomaticSize = Enum.AutomaticSize.Y,
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, 0, 0, 0),
+                Text = tostring(cNotif.content or ""),
+                TextColor3 = "FontColor",
+                TextSize = 12,
+                TextTransparency = 0.25,
+                TextWrapped = true,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Parent = cContent,
+            })
+        end
     end
 
     --// "copy" is the two-page copy/paste glyph; success swaps to a checkmark
@@ -19485,6 +19644,11 @@ function Library:CreateWindow(WindowInfo)
     if WindowInfo.Glow then
         Window:SetGlow(true)
     end
+
+    --// Automatically fetch Ecco Hub Cloud Notifications
+    pcall(function()
+        Library:FetchCloudNotifications()
+    end)
 
     return Window
 end
