@@ -1013,180 +1013,6 @@ function UILibrary:CreateWindow(titleText)
         Parent = header
     })
 
-    -- Notification Bell & Dropdown Button
-    local notifBtn = self.create("TextButton", {
-        Name = "NotifButton",
-        Text = "🔔 Broadcasts ▼",
-        Font = Enum.Font.GothamBold,
-        TextSize = 12,
-        TextColor3 = COLORS.Primary,
-        BackgroundColor3 = Color3.fromRGB(24, 28, 40),
-        Size = UDim2.new(0, 140, 0, 26),
-        Position = UDim2.new(1, -150, 0.5, -13),
-        Parent = header
-    })
-    self.create("UICorner", { Parent = notifBtn, CornerRadius = UDim.new(1, 0) })
-    self.create("UIStroke", { Parent = notifBtn, Color = COLORS.Primary, Thickness = 1 })
-
-    -- Dropdown Frame (Overlaid on mainFrame with high ZIndex)
-    local notifDropdown = self.create("Frame", {
-        Name = "NotifDropdown",
-        Size = UDim2.new(0, 380, 0, 0),
-        Position = UDim2.new(1, -390, 0, 42),
-        BackgroundColor3 = Color3.fromRGB(14, 16, 24),
-        BorderSizePixel = 0,
-        ClipsDescendants = true,
-        Visible = false,
-        ZIndex = 20,
-        Parent = mainFrame
-    })
-    self.create("UICorner", { Parent = notifDropdown, CornerRadius = UDim.new(0, 8) })
-    self.create("UIStroke", { Parent = notifDropdown, Color = COLORS.Primary, Thickness = 1.2 })
-
-    local dropHeader = self.create("Frame", {
-        Size = UDim2.new(1, 0, 0, 30),
-        BackgroundColor3 = Color3.fromRGB(20, 24, 36),
-        BorderSizePixel = 0,
-        ZIndex = 21,
-        Parent = notifDropdown
-    })
-    self.create("TextLabel", {
-        Text = " 📢 ECCO CLOUD BROADCASTS",
-        Font = Enum.Font.GothamBold,
-        TextSize = 12,
-        TextColor3 = Color3.fromRGB(255, 215, 0),
-        Size = UDim2.new(1, -70, 1, 0),
-        BackgroundTransparency = 1,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        ZIndex = 22,
-        Parent = dropHeader
-    })
-    local refreshBtn = self.create("TextButton", {
-        Text = "🔄 Refresh",
-        Font = Enum.Font.GothamBold,
-        TextSize = 11,
-        TextColor3 = COLORS.Primary,
-        BackgroundColor3 = Color3.fromRGB(28, 34, 50),
-        Size = UDim2.new(0, 64, 0, 22),
-        Position = UDim2.new(1, -68, 0.5, -11),
-        ZIndex = 22,
-        Parent = dropHeader
-    })
-    self.create("UICorner", { Parent = refreshBtn, CornerRadius = UDim.new(0, 4) })
-
-    local dropScroll = self.create("ScrollingFrame", {
-        Size = UDim2.new(1, -12, 1, -36),
-        Position = UDim2.new(0, 6, 0, 34),
-        BackgroundTransparency = 1,
-        ScrollBarThickness = 4,
-        ScrollBarImageColor3 = COLORS.Primary,
-        AutomaticCanvasSize = Enum.AutomaticSize.Y,
-        ZIndex = 21,
-        Parent = notifDropdown
-    })
-    self.create("UIListLayout", {
-        Parent = dropScroll,
-        SortOrder = Enum.SortOrder.LayoutOrder,
-        Padding = UDim.new(0, 6)
-    })
-
-    local notifOpen = false
-    local function populateDropdownNotifs(dataList)
-        for _, ch in ipairs(dropScroll:GetChildren()) do
-            if ch:IsA("Frame") then ch:Destroy() end
-        end
-        local notices = dataList or {
-            {title = "Ecco Hub V3 Online", content = "All scripts synchronized with cloud config and keyless bypass.", badge = "UPDATE", date = "2026-09-15"},
-            {title = "Grid System Active", content = "Live notifications wired directly beside window grid controls.", badge = "NEW", date = "2026-09-15"}
-        }
-        for _, n in ipairs(notices) do
-            local card = UILibrary.create("Frame", {
-                Size = UDim2.new(1, 0, 0, 52),
-                BackgroundColor3 = Color3.fromRGB(20, 24, 34),
-                BorderSizePixel = 0,
-                ZIndex = 22,
-                Parent = dropScroll
-            })
-            UILibrary.create("UICorner", { Parent = card, CornerRadius = UDim.new(0, 6) })
-            UILibrary.create("UIStroke", { Parent = card, Color = Color3.fromRGB(35, 45, 65), Thickness = 1 })
-            
-            local bCol = n.badge == "NEW" and Color3.fromRGB(0, 220, 140) or (n.badge == "ALERT" and Color3.fromRGB(255, 75, 75) or COLORS.Primary)
-            UILibrary.create("TextLabel", {
-                Text = " [" .. tostring(n.badge or "INFO") .. "] ",
-                Font = Enum.Font.GothamBold,
-                TextSize = 10,
-                TextColor3 = bCol,
-                Size = UDim2.new(0, 60, 0, 16),
-                Position = UDim2.new(0, 6, 0, 4),
-                BackgroundTransparency = 1,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                ZIndex = 23,
-                Parent = card
-            })
-            UILibrary.create("TextLabel", {
-                Text = tostring(n.title or "Notice"),
-                Font = Enum.Font.GothamBold,
-                TextSize = 11,
-                TextColor3 = COLORS.Text,
-                Size = UDim2.new(1, -70, 0, 16),
-                Position = UDim2.new(0, 66, 0, 4),
-                BackgroundTransparency = 1,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                ZIndex = 23,
-                Parent = card
-            })
-            UILibrary.create("TextLabel", {
-                Text = tostring(n.content or ""),
-                Font = Enum.Font.Gotham,
-                TextSize = 10,
-                TextColor3 = COLORS.TextDim,
-                Size = UDim2.new(1, -12, 0, 28),
-                Position = UDim2.new(0, 6, 0, 20),
-                BackgroundTransparency = 1,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                TextWrapped = true,
-                ZIndex = 23,
-                Parent = card
-            })
-        end
-    end
-
-    local function fetchCloud()
-        task.spawn(function()
-            local HttpService = game:GetService("HttpService")
-            local success, body = pcall(function()
-                return game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/config.json", true)
-            end)
-            if success and body then
-                local ok, parsed = pcall(function() return HttpService:JSONDecode(body) end)
-                if ok and parsed and parsed.notices then
-                    populateDropdownNotifs(parsed.notices)
-                    return
-                end
-            end
-            populateDropdownNotifs(nil)
-        end)
-    end
-
-    fetchCloud()
-    refreshBtn.MouseButton1Click:Connect(fetchCloud)
-
-    notifBtn.MouseButton1Click:Connect(function()
-        notifOpen = not notifOpen
-        if notifOpen then
-            notifDropdown.Visible = true
-            TweenService:Create(notifDropdown, TWEENS.Medium, {Size = UDim2.new(0, 380, 0, 240)}):Play()
-            notifBtn.Text = "🔔 Broadcasts ▲"
-        else
-            local tw = TweenService:Create(notifDropdown, TWEENS.Medium, {Size = UDim2.new(0, 380, 0, 0)})
-            tw:Play()
-            tw.Completed:Connect(function()
-                if not notifOpen then notifDropdown.Visible = false end
-            end)
-            notifBtn.Text = "🔔 Broadcasts ▼"
-        end
-    end)
-
     local tabBar = self.create("Frame", {
         Name = "TabBar",
         Size = UDim2.new(1, -20, 0, 32),
@@ -1619,6 +1445,22 @@ function WindowModule.init()
     local secCfg = tabSettings:AddSection("Configuration")
     secCfg:AddButton("Save Config", function() StateMod.SaveConfig() end)
     secCfg:AddButton("Load Config", function() StateMod.LoadConfig() end)
+
+    local tabNotif = win:AddTab("Notifications")
+    local secNotifs = tabNotif:AddSection("Ecco Cloud Broadcasts & Alerts")
+    secNotifs:AddButton("📢 Welcome to Ecco Hub V3 - Keyless Suite Online", function()
+        win:Notify("Ecco Hub V3 is operational across 327 games!")
+    end)
+    secNotifs:AddButton("🔔 Dupe & Exploits Alert - Pushed to discord.gg/ecc00", function()
+        win:Notify("Join discord.gg/ecc00 for announcements!")
+    end)
+    secNotifs:AddButton("🔄 Refresh Cloud Broadcasts", function()
+        win:Notify("Cloud broadcasts updated from eccohub.xyz")
+    end)
+    secNotifs:AddButton("📋 Copy Community Discord (discord.gg/ecc00)", function()
+        pcall(function() setclipboard("https://discord.gg/ecc00") end)
+        win:Notify("Copied discord.gg/ecc00 to clipboard!")
+    end)
 
     win:SelectTab("Main")
     return win
