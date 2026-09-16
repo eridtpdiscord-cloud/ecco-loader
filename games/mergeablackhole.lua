@@ -191,7 +191,7 @@ local function wormholeEntries(state)
     return entries
 end
 
-local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/deploy_eccohub/public/lib/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
