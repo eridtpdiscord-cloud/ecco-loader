@@ -12,13 +12,6 @@
     },
     "notifications": [
         {
-            "id": "noti-1789515441",
-            "title": "Grid Movement Notification Dropdown",
-            "content": "Live broadcast dropdown added right above the overlay grid container.",
-            "date": "2026-09-15",
-            "badge": "NEW"
-        },
-        {
             "id": "noti-1789010086",
             "title": "TEST BROADCAST",
             "content": "Ecco Hub V3 Sleek Loader and Cloud Control is LIVE!",
@@ -28,7 +21,7 @@
         {
             "id": "noti-001",
             "title": "Welcome to Ecco Hub V3",
-            "content": "All 319 games updated with keyless mode! Join discord.gg/hN9QpA3HA for script updates.",
+            "content": "All 319 games updated with keyless mode! Join discord.gg/ecc00 for script updates.",
             "date": "2026-09-09",
             "badge": "NEW"
         },
@@ -41,6 +34,6 @@
         }
     ],
     "version": "3.5.0",
-    "discord": "https://discord.gg/hN9QpA3HA",
+    "discord": "https://discord.gg/ecc00",
     "tiktok": "https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc"
 }
