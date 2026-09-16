@@ -60,7 +60,7 @@ local RewardedAdSpinRequest = SpinWheelRemotes:WaitForChild("RewardedAdSpinReque
 local GAME_NAME = "Bid for Anime!"
 local DISCORD_INVITE = "https://discord.gg/ecc00"
 
-local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 
 pcall(function()
@@ -490,7 +490,7 @@ local function buildWinEmbed(name, variant, finalPrice)
             { name = "Value", value = "`" .. formatMoney(value) .. "`", inline = true },
             { name = "Paid", value = "`" .. formatMoney(finalPrice or 0) .. "`", inline = true },
         },
-        footer = { text = "Ouroboros Hub | " .. GAME_NAME },
+        footer = { text = "Ecco Hub | " .. GAME_NAME },
         timestamp = DateTime.now():ToIsoDate(),
     }
 end
