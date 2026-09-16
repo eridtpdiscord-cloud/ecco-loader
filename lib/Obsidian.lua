@@ -14718,16 +14718,19 @@ function Library:CreateWindow(WindowInfo)
                 return Btn
             end
 
-            local MiniBell = MiniActionButton(
-                Library:GetIcon("bell"),
-                3,
-                "Notification History",
-                function() Library:ToggleNotificationHistory() end,
-                "!"
-            )
-            Library.NotificationBellMini = MiniBell
+            local MiniBell = nil
+            if not WindowInfo.DisableNotificationBell then
+                MiniBell = MiniActionButton(
+                    Library:GetIcon("bell"),
+                    3,
+                    "Notification History",
+                    function() Library:ToggleNotificationHistory() end,
+                    "!"
+                )
+                Library.NotificationBellMini = MiniBell
+            end
 
-            do
+            if MiniBell then
                 --// Unread badge for the minimized bell
                 local BadgeHolder = New("Frame", {
                     AnchorPoint = Vector2.new(1, 0),
