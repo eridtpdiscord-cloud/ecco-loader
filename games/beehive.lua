@@ -24,7 +24,7 @@ local ToolBuilderShared = require(Modules:WaitForChild("ToolBuilderShared"))
 local BeeConfig = require(Configs:WaitForChild("BeeConfig"))
 local MutationConfig = require(Configs:WaitForChild("MutationConfig"))
 
-local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 
 pcall(function()
@@ -430,8 +430,8 @@ local function deleteMatchingNow()
 end
 
 local Window = Library:CreateWindow({
-    Title = "Grow a Beehive",
-    Footer = "Ecco Hub V3",
+    Title = "Ecco Hub | Grow a Beehive",
+    Footer = "Ecco Hub V3 • eccohub.xyz",
     Size = UDim2.fromOffset(900, 640),
     ShowCustomCursor = false,
 })
