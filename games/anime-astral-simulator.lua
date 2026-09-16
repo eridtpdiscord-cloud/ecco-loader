@@ -343,7 +343,7 @@ if WorldChanged then
 	end)
 end
 
-local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local ObsidianLibrary = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
@@ -546,7 +546,7 @@ end
 
 local Window = ObsidianLibrary:CreateWindow({
 	Title = "Ecco Hub V3",
-	Footer = "https://discord.gg/f3dJhDgyTq | Anime Astral Simulator",
+	Footer = "Ecco Hub V3 • eccohub.xyz",
 	Icon = 18657887261,
 	EnableSidebarResize = true,
 	NotifySide = "Right",
