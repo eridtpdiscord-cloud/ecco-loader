@@ -105,7 +105,7 @@ local function getPlot()
     return best
 end
 
-local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 
 pcall(function()
@@ -668,8 +668,8 @@ local function doManualAutoRoll()
 end
 
 local Window = Library:CreateWindow({
-    Title = "Build a Pet Farm",
-    Footer = "Ecco Hub V3",
+    Title = "Ecco Hub | Build a Pet Farm",
+    Footer = "Ecco Hub V3 • eccohub.xyz",
     Size = UDim2.fromOffset(940, 660),
     ShowCustomCursor = false,
 })
