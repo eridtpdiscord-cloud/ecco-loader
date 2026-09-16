@@ -1,4 +1,4 @@
--- Ouroboros Hub :: Steal an Egg support notice
+-- Ecco Hub :: Steal an Egg support notice
 local Players = game:GetService("Players")
 
 Players.LocalPlayer:Kick(table.concat({
