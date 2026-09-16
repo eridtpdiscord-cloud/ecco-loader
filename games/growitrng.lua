@@ -1,4 +1,4 @@
-local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 
 if getgenv()._GrowItRNG_Unload then
@@ -238,7 +238,7 @@ local placingOwnedItem = false
 
 local Window = Library:CreateWindow({
     Title = "Ecco Hub V3",
-    Footer = "https://discord.gg/ehKVq7pf7v | Grow it RNG",
+    Footer = "Ecco Hub V3 • eccohub.xyz",
     Icon = 18657887261,
     NotifySide = "Right",
     ShowCustomCursor = false,
