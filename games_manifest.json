@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-09-15T19:51:26.265093",
+    "generated_at": "2026-09-15T20:04:26.879195",
     "total_games": 327,
     "games": [
         {
@@ -1514,12 +1514,12 @@
         },
         {
             "filename": "storage-hunters.lua",
-            "size_bytes": 1818586,
+            "size_bytes": 62868,
             "path": "deploy_eccohub/public/games/storage-hunters.lua"
         },
         {
             "filename": "storagehunters.lua",
-            "size_bytes": 1818586,
+            "size_bytes": 62868,
             "path": "deploy_eccohub/public/games/storagehunters.lua"
         },
         {
