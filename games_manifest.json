@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-09-15T20:04:26.879195",
+    "generated_at": "2026-09-15T20:10:38.596266",
     "total_games": 327,
     "games": [
         {
@@ -29,7 +29,7 @@
         },
         {
             "filename": "amber_alert.lua",
-            "size_bytes": 76931,
+            "size_bytes": 76989,
             "path": "deploy_eccohub/public/games/amber_alert.lua"
         },
         {
@@ -44,7 +44,7 @@
         },
         {
             "filename": "anime-astral-simulator.lua",
-            "size_bytes": 52169,
+            "size_bytes": 52155,
             "path": "deploy_eccohub/public/games/anime-astral-simulator.lua"
         },
         {
@@ -59,7 +59,7 @@
         },
         {
             "filename": "anime-rng-defense.lua",
-            "size_bytes": 60632,
+            "size_bytes": 60635,
             "path": "deploy_eccohub/public/games/anime-rng-defense.lua"
         },
         {
@@ -69,7 +69,7 @@
         },
         {
             "filename": "anime-squadron.lua",
-            "size_bytes": 807448,
+            "size_bytes": 807439,
             "path": "deploy_eccohub/public/games/anime-squadron.lua"
         },
         {
@@ -94,12 +94,12 @@
         },
         {
             "filename": "animedice.lua",
-            "size_bytes": 528726,
+            "size_bytes": 528723,
             "path": "deploy_eccohub/public/games/animedice.lua"
         },
         {
             "filename": "animeexpeditions.lua",
-            "size_bytes": 1387608,
+            "size_bytes": 1387583,
             "path": "deploy_eccohub/public/games/animeexpeditions.lua"
         },
         {
@@ -119,17 +119,17 @@
         },
         {
             "filename": "animemine.luau",
-            "size_bytes": 280743,
+            "size_bytes": 280740,
             "path": "deploy_eccohub/public/games/animemine.luau"
         },
         {
             "filename": "animeshitseer.lua",
-            "size_bytes": 200500,
+            "size_bytes": 200510,
             "path": "deploy_eccohub/public/games/animeshitseer.lua"
         },
         {
             "filename": "animesouls.lua",
-            "size_bytes": 139650,
+            "size_bytes": 139663,
             "path": "deploy_eccohub/public/games/animesouls.lua"
         },
         {
@@ -169,7 +169,7 @@
         },
         {
             "filename": "beafishbait.lua",
-            "size_bytes": 106353,
+            "size_bytes": 106366,
             "path": "deploy_eccohub/public/games/beafishbait.lua"
         },
         {
@@ -184,17 +184,17 @@
         },
         {
             "filename": "becomeabillionaire.lua",
-            "size_bytes": 111876,
+            "size_bytes": 111889,
             "path": "deploy_eccohub/public/games/becomeabillionaire.lua"
         },
         {
             "filename": "beehive.lua",
-            "size_bytes": 25244,
+            "size_bytes": 25284,
             "path": "deploy_eccohub/public/games/beehive.lua"
         },
         {
             "filename": "beeremasters.lua",
-            "size_bytes": 426470,
+            "size_bytes": 426483,
             "path": "deploy_eccohub/public/games/beeremasters.lua"
         },
         {
@@ -204,17 +204,17 @@
         },
         {
             "filename": "bethefinalboss.lu",
-            "size_bytes": 193645,
+            "size_bytes": 193658,
             "path": "deploy_eccohub/public/games/bethefinalboss.lu"
         },
         {
             "filename": "bidforanime.lua",
-            "size_bytes": 36260,
+            "size_bytes": 36268,
             "path": "deploy_eccohub/public/games/bidforanime.lua"
         },
         {
             "filename": "bidforsoccercards.lua",
-            "size_bytes": 258871,
+            "size_bytes": 258866,
             "path": "deploy_eccohub/public/games/bidforsoccercards.lua"
         },
         {
@@ -239,12 +239,12 @@
         },
         {
             "filename": "bo3zombies.lua",
-            "size_bytes": 237319,
+            "size_bytes": 237332,
             "path": "deploy_eccohub/public/games/bo3zombies.lua"
         },
         {
             "filename": "bomb-fishing.lua",
-            "size_bytes": 152893,
+            "size_bytes": 152906,
             "path": "deploy_eccohub/public/games/bomb-fishing.lua"
         },
         {
@@ -274,7 +274,7 @@
         },
         {
             "filename": "buildabutterflygarden.lua",
-            "size_bytes": 238876,
+            "size_bytes": 238889,
             "path": "deploy_eccohub/public/games/buildabutterflygarden.lua"
         },
         {
@@ -294,7 +294,7 @@
         },
         {
             "filename": "buildakeyboard.lua",
-            "size_bytes": 97001,
+            "size_bytes": 97014,
             "path": "deploy_eccohub/public/games/buildakeyboard.lua"
         },
         {
@@ -304,17 +304,17 @@
         },
         {
             "filename": "buildapetfactory.lua",
-            "size_bytes": 121010,
+            "size_bytes": 121049,
             "path": "deploy_eccohub/public/games/buildapetfactory.lua"
         },
         {
             "filename": "buildapetfarm.lua",
-            "size_bytes": 33344,
+            "size_bytes": 33384,
             "path": "deploy_eccohub/public/games/buildapetfarm.lua"
         },
         {
             "filename": "buildaslime.lua",
-            "size_bytes": 118092,
+            "size_bytes": 118105,
             "path": "deploy_eccohub/public/games/buildaslime.lua"
         },
         {
@@ -334,7 +334,7 @@
         },
         {
             "filename": "buildslavegolems.luau",
-            "size_bytes": 223323,
+            "size_bytes": 223320,
             "path": "deploy_eccohub/public/games/buildslavegolems.luau"
         },
         {
@@ -349,7 +349,7 @@
         },
         {
             "filename": "c32.luau",
-            "size_bytes": 38397,
+            "size_bytes": 38394,
             "path": "deploy_eccohub/public/games/c32.luau"
         },
         {
@@ -379,12 +379,12 @@
         },
         {
             "filename": "catchaslop.lua",
-            "size_bytes": 130621,
+            "size_bytes": 130634,
             "path": "deploy_eccohub/public/games/catchaslop.lua"
         },
         {
             "filename": "catchbillionducks.lua",
-            "size_bytes": 370342,
+            "size_bytes": 370339,
             "path": "deploy_eccohub/public/games/catchbillionducks.lua"
         },
         {
@@ -394,12 +394,12 @@
         },
         {
             "filename": "chickenfarm.lua",
-            "size_bytes": 53629,
+            "size_bytes": 53642,
             "path": "deploy_eccohub/public/games/chickenfarm.lua"
         },
         {
             "filename": "choptrees.luau",
-            "size_bytes": 422516,
+            "size_bytes": 422513,
             "path": "deploy_eccohub/public/games/choptrees.luau"
         },
         {
@@ -454,12 +454,12 @@
         },
         {
             "filename": "crawfishing.lua",
-            "size_bytes": 136329,
+            "size_bytes": 136342,
             "path": "deploy_eccohub/public/games/crawfishing.lua"
         },
         {
             "filename": "csim.luau",
-            "size_bytes": 664819,
+            "size_bytes": 664816,
             "path": "deploy_eccohub/public/games/csim.luau"
         },
         {
@@ -469,7 +469,7 @@
         },
         {
             "filename": "cutagem.lua",
-            "size_bytes": 243789,
+            "size_bytes": 243802,
             "path": "deploy_eccohub/public/games/cutagem.lua"
         },
         {
@@ -494,7 +494,7 @@
         },
         {
             "filename": "defend-ur-base-with-anime.lua",
-            "size_bytes": 209906,
+            "size_bytes": 209935,
             "path": "deploy_eccohub/public/games/defend-ur-base-with-anime.lua"
         },
         {
@@ -524,12 +524,12 @@
         },
         {
             "filename": "dinohunters.lua",
-            "size_bytes": 182717,
+            "size_bytes": 182730,
             "path": "deploy_eccohub/public/games/dinohunters.lua"
         },
         {
             "filename": "dirtycmuwhore.luau",
-            "size_bytes": 77753,
+            "size_bytes": 77743,
             "path": "deploy_eccohub/public/games/dirtycmuwhore.luau"
         },
         {
@@ -574,7 +574,7 @@
         },
         {
             "filename": "dungeonlootr.luau",
-            "size_bytes": 1034935,
+            "size_bytes": 1034930,
             "path": "deploy_eccohub/public/games/dungeonlootr.luau"
         },
         {
@@ -584,7 +584,7 @@
         },
         {
             "filename": "e1.luau",
-            "size_bytes": 551365,
+            "size_bytes": 551357,
             "path": "deploy_eccohub/public/games/e1.luau"
         },
         {
@@ -604,17 +604,17 @@
         },
         {
             "filename": "e99.luau",
-            "size_bytes": 162515,
+            "size_bytes": 162510,
             "path": "deploy_eccohub/public/games/e99.luau"
         },
         {
             "filename": "endlesstower.luau",
-            "size_bytes": 323701,
+            "size_bytes": 323698,
             "path": "deploy_eccohub/public/games/endlesstower.luau"
         },
         {
             "filename": "evomon.lua",
-            "size_bytes": 247769,
+            "size_bytes": 247794,
             "path": "deploy_eccohub/public/games/evomon.lua"
         },
         {
@@ -624,7 +624,7 @@
         },
         {
             "filename": "farmafish.lua",
-            "size_bytes": 187195,
+            "size_bytes": 187208,
             "path": "deploy_eccohub/public/games/farmafish.lua"
         },
         {
@@ -654,12 +654,12 @@
         },
         {
             "filename": "fishanimrng.lua",
-            "size_bytes": 460937,
+            "size_bytes": 460932,
             "path": "deploy_eccohub/public/games/fishanimrng.lua"
         },
         {
             "filename": "fisheggs.luau",
-            "size_bytes": 253691,
+            "size_bytes": 253688,
             "path": "deploy_eccohub/public/games/fisheggs.luau"
         },
         {
@@ -704,7 +704,7 @@
         },
         {
             "filename": "fruitsex.luau",
-            "size_bytes": 290806,
+            "size_bytes": 290803,
             "path": "deploy_eccohub/public/games/fruitsex.luau"
         },
         {
@@ -714,12 +714,12 @@
         },
         {
             "filename": "furryporn.luau",
-            "size_bytes": 317997,
+            "size_bytes": 317994,
             "path": "deploy_eccohub/public/games/furryporn.luau"
         },
         {
             "filename": "gardencleaner.lua",
-            "size_bytes": 128339,
+            "size_bytes": 128352,
             "path": "deploy_eccohub/public/games/gardencleaner.lua"
         },
         {
@@ -739,7 +739,7 @@
         },
         {
             "filename": "getfattobreaktape.lua",
-            "size_bytes": 191369,
+            "size_bytes": 191382,
             "path": "deploy_eccohub/public/games/getfattobreaktape.lua"
         },
         {
@@ -764,12 +764,12 @@
         },
         {
             "filename": "growitrng.lua",
-            "size_bytes": 73853,
+            "size_bytes": 73850,
             "path": "deploy_eccohub/public/games/growitrng.lua"
         },
         {
             "filename": "hackabussiness.lua",
-            "size_bytes": 86698,
+            "size_bytes": 86711,
             "path": "deploy_eccohub/public/games/hackabussiness.lua"
         },
         {
@@ -794,7 +794,7 @@
         },
         {
             "filename": "heavyweightfishing.lua",
-            "size_bytes": 719868,
+            "size_bytes": 719858,
             "path": "deploy_eccohub/public/games/heavyweightfishing.lua"
         },
         {
@@ -804,7 +804,7 @@
         },
         {
             "filename": "hirepostalkingfaggot.luau",
-            "size_bytes": 322760,
+            "size_bytes": 322757,
             "path": "deploy_eccohub/public/games/hirepostalkingfaggot.luau"
         },
         {
@@ -829,7 +829,7 @@
         },
         {
             "filename": "hotsauce.lua",
-            "size_bytes": 114861,
+            "size_bytes": 114874,
             "path": "deploy_eccohub/public/games/hotsauce.lua"
         },
         {
@@ -839,7 +839,7 @@
         },
         {
             "filename": "idlemafiagame.luau",
-            "size_bytes": 338974,
+            "size_bytes": 338969,
             "path": "deploy_eccohub/public/games/idlemafiagame.luau"
         },
         {
@@ -889,12 +889,12 @@
         },
         {
             "filename": "lakesipping.lua",
-            "size_bytes": 445544,
+            "size_bytes": 445557,
             "path": "deploy_eccohub/public/games/lakesipping.lua"
         },
         {
             "filename": "laststop.luau",
-            "size_bytes": 401129,
+            "size_bytes": 401126,
             "path": "deploy_eccohub/public/games/laststop.luau"
         },
         {
@@ -924,7 +924,7 @@
         },
         {
             "filename": "lootforge.luau",
-            "size_bytes": 401307,
+            "size_bytes": 401304,
             "path": "deploy_eccohub/public/games/lootforge.luau"
         },
         {
@@ -964,7 +964,7 @@
         },
         {
             "filename": "makeadrillfarm.lua",
-            "size_bytes": 109118,
+            "size_bytes": 109131,
             "path": "deploy_eccohub/public/games/makeadrillfarm.lua"
         },
         {
@@ -984,7 +984,7 @@
         },
         {
             "filename": "merge-a-nuke.lua",
-            "size_bytes": 112202,
+            "size_bytes": 112215,
             "path": "deploy_eccohub/public/games/merge-a-nuke.lua"
         },
         {
@@ -1039,7 +1039,7 @@
         },
         {
             "filename": "mineamountain.lua",
-            "size_bytes": 305470,
+            "size_bytes": 305465,
             "path": "deploy_eccohub/public/games/mineamountain.lua"
         },
         {
@@ -1049,12 +1049,12 @@
         },
         {
             "filename": "miniwar.lua",
-            "size_bytes": 266630,
+            "size_bytes": 266625,
             "path": "deploy_eccohub/public/games/miniwar.lua"
         },
         {
             "filename": "missilesvscities.lua",
-            "size_bytes": 38255,
+            "size_bytes": 38268,
             "path": "deploy_eccohub/public/games/missilesvscities.lua"
         },
         {
@@ -1084,7 +1084,7 @@
         },
         {
             "filename": "mydinofarm.lua",
-            "size_bytes": 119100,
+            "size_bytes": 119113,
             "path": "deploy_eccohub/public/games/mydinofarm.lua"
         },
         {
@@ -1214,7 +1214,7 @@
         },
         {
             "filename": "pullaluckyfish.lua",
-            "size_bytes": 585220,
+            "size_bytes": 585233,
             "path": "deploy_eccohub/public/games/pullaluckyfish.lua"
         },
         {
@@ -1249,7 +1249,7 @@
         },
         {
             "filename": "rng-heroes.lua",
-            "size_bytes": 160400,
+            "size_bytes": 160413,
             "path": "deploy_eccohub/public/games/rng-heroes.lua"
         },
         {
@@ -1274,7 +1274,7 @@
         },
         {
             "filename": "rollananime.lua",
-            "size_bytes": 77845,
+            "size_bytes": 77858,
             "path": "deploy_eccohub/public/games/rollananime.lua"
         },
         {
@@ -1289,7 +1289,7 @@
         },
         {
             "filename": "rollanime.lua",
-            "size_bytes": 77764,
+            "size_bytes": 77777,
             "path": "deploy_eccohub/public/games/rollanime.lua"
         },
         {
@@ -1299,7 +1299,7 @@
         },
         {
             "filename": "rollanimetofight.lua",
-            "size_bytes": 519847,
+            "size_bytes": 519842,
             "path": "deploy_eccohub/public/games/rollanimetofight.lua"
         },
         {
@@ -1309,7 +1309,7 @@
         },
         {
             "filename": "rollaspirit.lua",
-            "size_bytes": 172299,
+            "size_bytes": 172294,
             "path": "deploy_eccohub/public/games/rollaspirit.lua"
         },
         {
@@ -1344,7 +1344,7 @@
         },
         {
             "filename": "saber-simulator.lua",
-            "size_bytes": 894988,
+            "size_bytes": 894978,
             "path": "deploy_eccohub/public/games/saber-simulator.lua"
         },
         {
@@ -1354,7 +1354,7 @@
         },
         {
             "filename": "samuraislut.luau",
-            "size_bytes": 306785,
+            "size_bytes": 306782,
             "path": "deploy_eccohub/public/games/samuraislut.luau"
         },
         {
@@ -1434,17 +1434,17 @@
         },
         {
             "filename": "snipebrainrots.lua",
-            "size_bytes": 197494,
+            "size_bytes": 197489,
             "path": "deploy_eccohub/public/games/snipebrainrots.lua"
         },
         {
             "filename": "snowconestand.lua",
-            "size_bytes": 162460,
+            "size_bytes": 162473,
             "path": "deploy_eccohub/public/games/snowconestand.lua"
         },
         {
             "filename": "somethingsexywillhappen.lua",
-            "size_bytes": 77250,
+            "size_bytes": 77263,
             "path": "deploy_eccohub/public/games/somethingsexywillhappen.lua"
         },
         {
@@ -1469,7 +1469,7 @@
         },
         {
             "filename": "spin-a-car.lua",
-            "size_bytes": 64047,
+            "size_bytes": 64060,
             "path": "deploy_eccohub/public/games/spin-a-car.lua"
         },
         {
@@ -1489,22 +1489,22 @@
         },
         {
             "filename": "starcatchers.lua",
-            "size_bytes": 240544,
+            "size_bytes": 240539,
             "path": "deploy_eccohub/public/games/starcatchers.lua"
         },
         {
             "filename": "stealanegg.lua",
-            "size_bytes": 1127,
+            "size_bytes": 1122,
             "path": "deploy_eccohub/public/games/stealanegg.lua"
         },
         {
             "filename": "stealanimeegg.luau",
-            "size_bytes": 369764,
+            "size_bytes": 369761,
             "path": "deploy_eccohub/public/games/stealanimeegg.luau"
         },
         {
             "filename": "stealcumseed.luau",
-            "size_bytes": 310990,
+            "size_bytes": 310987,
             "path": "deploy_eccohub/public/games/stealcumseed.luau"
         },
         {
@@ -1514,12 +1514,12 @@
         },
         {
             "filename": "storage-hunters.lua",
-            "size_bytes": 62868,
+            "size_bytes": 55699,
             "path": "deploy_eccohub/public/games/storage-hunters.lua"
         },
         {
             "filename": "storagehunters.lua",
-            "size_bytes": 62868,
+            "size_bytes": 55699,
             "path": "deploy_eccohub/public/games/storagehunters.lua"
         },
         {
@@ -1534,7 +1534,7 @@
         },
         {
             "filename": "survive-zombie-arena.lua",
-            "size_bytes": 17224,
+            "size_bytes": 17219,
             "path": "deploy_eccohub/public/games/survive-zombie-arena.lua"
         },
         {
@@ -1549,7 +1549,7 @@
         },
         {
             "filename": "swingerspickaxe.lua",
-            "size_bytes": 113623,
+            "size_bytes": 113636,
             "path": "deploy_eccohub/public/games/swingerspickaxe.lua"
         },
         {
@@ -1589,12 +1589,12 @@
         },
         {
             "filename": "unboxasmr.lua",
-            "size_bytes": 274066,
+            "size_bytes": 274061,
             "path": "deploy_eccohub/public/games/unboxasmr.lua"
         },
         {
             "filename": "unfreeze.luau",
-            "size_bytes": 60833,
+            "size_bytes": 60830,
             "path": "deploy_eccohub/public/games/unfreeze.luau"
         },
         {
