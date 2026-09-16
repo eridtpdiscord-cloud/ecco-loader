@@ -46,7 +46,7 @@ local GAME_NAME = "Mutant Plants: Base Defense"
 local DISCORD_INVITE = "https://discord.gg/ecc00"
 local RSCRIPTS_LINK = "https://eccohub.xyz"
 
-local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/deploy_eccohub/public/lib/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 
 pcall(function()
