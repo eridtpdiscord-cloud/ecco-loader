@@ -365,7 +365,7 @@ local Tabs = {
 
 local Options = Library.Options
 
-local DISCORD_INVITE = "https://discord.gg/f3dJhDgyTq"
+local DISCORD_INVITE = "https://discord.gg/ecc00"
 local copyToClipboard = setclipboard or toclipboard or set_clipboard or (writeclipboard)
 
 local function addDiscordButton(tab)
