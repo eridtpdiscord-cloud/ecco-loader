@@ -10,7 +10,7 @@ local GAME_NAME = "Clean Your Keycaps"
 local DISCORD_INVITE = "https://discord.gg/ecc00"
 local RSCRIPTS_LINK = "https://eccohub.xyz"
 
-local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/deploy_eccohub/public/lib/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
