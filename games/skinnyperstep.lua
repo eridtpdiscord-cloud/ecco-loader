@@ -67,7 +67,7 @@ local TRAIL_ORDER = {
 	{ Name = "DiamondTrail", Cost = 1e15, Speed = 65 },
 }
 
-local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/deploy_eccohub/public/lib/"
+local repo = "https://eccohub.xyz/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
