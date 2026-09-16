@@ -30,7 +30,7 @@ local InventoryUI = require(ClientFolder:WaitForChild("InventoryUI"))
 local SelectionState = require(ClientFolder:WaitForChild("SelectionState"))
 local MyLandState = require(ClientFolder:WaitForChild("MyLandState"))
 
-local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/deploy_eccohub/public/lib/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 
 pcall(function()
