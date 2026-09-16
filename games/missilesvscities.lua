@@ -73,7 +73,7 @@ local DISTRICT_UPGRADE_TYPES = {
 	district_naval_dock = "Naval Dock",
 }
 
-local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local repo = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/lib/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
