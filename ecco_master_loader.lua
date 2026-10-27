@@ -3,7 +3,7 @@
     ECCO HUB V3 — MASTER MULTI-GAME ROUTER (300+ GAMES SUPPORTED)
     ================================================================================
     Official Hub: https://eccohub.xyz
-    Community   : https://discord.gg/ecc00
+    Community   : https://discord.gg/FTxJ9a4w7
     Framework   : ObsidianUltra (Ecco Edition)
     ================================================================================
 --]]
@@ -12,7 +12,7 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local BASE = "https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/games/"
+local BASE = "https://eccohub.xyz/games/"
 local games = {
     [9190691] = 'anime-squadron.lua',
     [896806231] = 'axe-rng.lua',
@@ -342,6 +342,8 @@ local games = {
     [1012569219] = 'mogfishing.luau',
     [345496772] = 'cumwhore.luau',
     [1041268469] = 'pussyfishing.luau',
+    [79268393072444] = 'sell_lemons.lua',
+    [9640154] = 'sell_lemons.lua',
 }
 
 local targetFile = games[game.CreatorId] or games[game.PlaceId]
