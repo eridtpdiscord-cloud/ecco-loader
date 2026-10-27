@@ -3,7 +3,7 @@
     ECCO HUB V3 — MINIMALIST SLEEK BOOTSTRAP LOADER
     ================================================================================
     Official Hub : https://eccohub.xyz
-    Community    : https://discord.gg/hN9QpA3HA
+    Community    : https://discord.gg/FTxJ9a4w7
     TikTok       : https://www.tiktok.com/@_ecc00_?is_from_webapp=1&sender_device=pc
     Design Spec  : Sleek Dark Glass Stepper UI (390x480)
     ================================================================================
@@ -96,7 +96,7 @@ LogoImage.BackgroundTransparency = 1
 pcall(function()
     if isfile and not isfile("ecco_symbol.png") then
         pcall(function()
-            local s = game:HttpGet("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/ecco_symbol.png")
+            local s = game:HttpGet("https://eccohub.xyz/ecco_symbol.png")
             if s and #s > 1000 then writefile("ecco_symbol.png", s) end
         end)
         if not isfile("ecco_symbol.png") then
@@ -332,6 +332,12 @@ end
 -- 4. COMPLETE 14-GAME CATALOG ROUTING MATRIX
 -- ==============================================================================
 local ROUTE_MAP = {
+    ["niche_hangout"] = {
+        places = {127153083107200},
+        creators = {},
+        file = "niche_hangout.lua",
+        name = "Niche Hangout"
+    },
     ["storage_hunters"] = {
         places = {98800969324557},
         creators = {9640154},
@@ -452,7 +458,7 @@ task.spawn(function()
     updateProgress(0.4)
     task.wait(0.25)
 
-    local rawConfig = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/config.json")
+    local rawConfig = fetchCode("https://eccohub.xyz/config.json")
     if not rawConfig then
         rawConfig = fetchCode("http://127.0.0.1:8999/config.json")
     end
@@ -525,7 +531,7 @@ task.spawn(function()
 
         dBtn.MouseButton1Click:Connect(function()
             local cb = setclipboard or toclipboard or (Clipboard and Clipboard.set)
-            if cb then cb(cloudConfig.discord or "https://discord.gg/hN9QpA3HA") end
+            if cb then cb(cloudConfig.discord or "https://discord.gg/FTxJ9a4w7") end
         end)
         return
     end
@@ -570,6 +576,40 @@ task.spawn(function()
         if target then break end
     end
 
+    -- Supported game: let the user pick the game script or Universal
+    if target then
+        StepperFrame.Visible = false
+        StatusLabel.Text = "SUPPORTED: " .. string.upper(target.Name)
+
+        local picked = Instance.new("BindableEvent")
+        local card = Instance.new("Frame", Modal)
+        card.Size = UDim2.new(1, -70, 0, 120)
+        card.Position = UDim2.new(0, 35, 0, 220)
+        card.BackgroundTransparency = 1
+
+        local function choiceBtn(text, y, color, value)
+            local b = Instance.new("TextButton", card)
+            b.Size = UDim2.new(1, 0, 0, 44)
+            b.Position = UDim2.new(0, 0, 0, y)
+            b.BackgroundColor3 = color
+            b.Font = Enum.Font.GothamBold
+            b.TextSize = 13
+            b.TextColor3 = Color3.fromRGB(255, 255, 255)
+            b.TextTruncate = Enum.TextTruncate.AtEnd
+            b.Text = text
+            Instance.new("UICorner", b).CornerRadius = UDim.new(0, 8)
+            b.MouseButton1Click:Connect(function() picked:Fire(value) end)
+        end
+        choiceBtn("Load " .. target.Name, 0, Color3.fromRGB(0, 140, 220), "game")
+        choiceBtn("Load Universal", 56, Color3.fromRGB(32, 32, 40), "universal")
+
+        local choice = picked.Event:Wait()
+        card:Destroy()
+        picked:Destroy()
+        StepperFrame.Visible = true
+        if choice == "universal" then target = nil end
+    end
+
     if not target then
         target = { Name = "Ecco Hub Universal", File = "universal.lua" }
     end
@@ -581,18 +621,18 @@ task.spawn(function()
     payloadCode = fetchCode("http://127.0.0.1:8999/products/" .. target.File)
     -- Try GitHub raw products repository
     if not payloadCode then
-        payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/products/" .. target.File)
+        payloadCode = fetchCode("https://eccohub.xyz/products/" .. target.File)
     end
     -- Try root universal/single-file products if universal
     if not payloadCode and (target.File == "universal.lua" or target.File == "mm2.lua" or target.File == "sell_lemons.lua" or target.File == "last_letter.lua") then
         payloadCode = fetchCode("http://127.0.0.1:8999/" .. target.File)
         if not payloadCode then
-            payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/" .. target.File)
+            payloadCode = fetchCode("https://eccohub.xyz/" .. target.File)
         end
     end
     -- Try games directory fallback
     if not payloadCode then
-        payloadCode = fetchCode("https://raw.githubusercontent.com/eridtpdiscord-cloud/ecco-loader/main/games/" .. target.File:gsub("_", "-"))
+        payloadCode = fetchCode("https://eccohub.xyz/games/" .. target.File:gsub("_", "-"))
     end
     -- Try eccohub.xyz
     if not payloadCode then
@@ -669,8 +709,8 @@ task.spawn(function()
                             d.ImageRectOffset = Vector2.zero
                         end
                     elseif d:IsA("TextButton") and not d:GetAttribute("EccoSocialBound") then
-                        if d.Text:find("discord.gg/ecc00") or d.Text:find("discord.gg/ouroboros") then
-                            d.Text = d.Text:gsub("discord.gg/%w+", "discord.gg/hN9QpA3HA")
+                        if d.Text:find("discord.gg/FTxJ9a4w7") or d.Text:find("discord.gg/ouroboros") then
+                            d.Text = d.Text:gsub("discord.gg/%w+", "discord.gg/FTxJ9a4w7")
                         elseif d.Text == "Website" or d.Text:find("Website") then
                             d.Text = "Website"
                             d:SetAttribute("EccoSocialBound", true)
@@ -686,7 +726,7 @@ task.spawn(function()
                         elseif d.Text == "Discord" then
                             d:SetAttribute("EccoSocialBound", true)
                             d.MouseButton1Click:Connect(function()
-                                if cb then cb("https://discord.gg/hN9QpA3HA") end
+                                if cb then cb("https://discord.gg/FTxJ9a4w7") end
                             end)
                         end
                     end
